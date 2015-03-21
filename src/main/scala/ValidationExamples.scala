@@ -1,7 +1,6 @@
 package scalaZExamples
 
 import scalaz._, Scalaz._
-import scalaz.Validation.FlatMap._
 
 object ValidationExamples {
   /**
@@ -24,13 +23,14 @@ object ValidationExamples {
 
   def validateNonNegativeInteger(field: String, value: String): ValidationNel[String, Int] =
     value.parseInt
-      .leftMap { e => s"$field must be an integer value.".wrapNel }
-      .flatMap { i => if (i >= 0) i.successNel else s"$field cannot be negative".failureNel }
+      .leftMap(_ => s"$field must be an integer value.".wrapNel)
+      .ensure(s"$field cannot be negative.".wrapNel)(_ >= 0)
 
-  def makePerson(firstName: String, lastName: String, ageStr: String) =
+  def makePerson(firstName: String, lastName: String, ageStr: String): ValidationNel[String, Person] =
     (validateNonEmptyString("First name", firstName)
       |@| validateNonEmptyString("Last name", lastName)
-      |@| validateNonNegativeInteger("Age", ageStr))(Person.apply)
+      |@| validateNonNegativeInteger("Age", ageStr)
+    )(Person.apply)
 
   val p1 = makePerson("First", "Last", "42") // Success(Person("First", "Last", 42))
   val p2 = makePerson("", "", "42") // Failure(NonEmptyList("First name cannot be empty.", "Last name cannot be empty."))

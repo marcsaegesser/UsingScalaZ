@@ -33,8 +33,8 @@ object ZipperExamples {
 
 object AdSlotZipper {
   trait Slot
-  case class SlotA(info: String) extends Slot
-  case class SlotB(info: String) extends Slot
+  case class ClassSlot(className: String) extends Slot
+  case class GroupSlot(groupNumber: Int) extends Slot
 
   val slots = Ref(Option.empty[Zipper[Slot]])
 

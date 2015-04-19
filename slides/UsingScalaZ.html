@@ -78,6 +78,7 @@
                                       <li>Large - <em style="color:#A9A9A9;">Many classes, many unrelated to each other</em></li>
                                       <li>Arcane - <em style="color:#A9A9A9;">Functor, Applicative, Monad. Oh, my!</em></li>
                                       <li>Abstract - <em style="color:#A9A9A9;">Genericity is powerful, but not obvious</em></li>
+                                      <li>Documentation - <em style="color:#A9A9A9;">Yeah, it's that bad</em></li>
                                     </ul>
                                   </div>
                                 </section>
@@ -102,17 +103,27 @@
                                     <li>A non-empty list with a focus
                                       <ul>
                                         <li>All operations happen at the focus</li>
-                                        <li>Read, modify, delete the item at the focus</li>
+                                        <li>Read, modify or delete the item at the focus</li>
                                         <li>Move the focus to the left or right (potentially wrapping at the ends)</li>
-                                        <li>Add a new item at the focus (push existing focus left or right)</li>
-                                        <li>All operations are O(1) except for wrapping from end to beginning which is O(n)</li>
+                                        <li>Add a new item to the left or right of the focus</li>
+                                        <li>All operations are O(1) except for wrapping from end to end which is O(n)</li>
                                       </ul>
                                     </li>
                                   </ul>
                                 </section>
 
                                 <section>
-					<!-- <pre><code class="scala" data-trim contenteditable> -->
+                                  <blockquote cite="https://www.st.cs.uni-saarland.de/edu/seminare/2005/advanced-fp/docs/huet-zipper.pdf">
+                                    &ldquo;Going up
+                                    and down in the structure is analogous to closing and opening a zipper in a piece
+                                    of clothing, whence the name.&rdquo;<br>
+                                    &mdash; GERARD HUET
+                                  </blockquote>
+                                  <p><small>https://www.st.cs.uni-saarland.de/edu/seminare/2005/advanced-fp/docs/huet-zipper.pdf</small></p>
+                                </section>
+
+                                <section>
+				  <!-- <pre><code class="scala" data-trim contenteditable> -->
 					<pre><code class="scala">
 final case class Zipper[+A](lefts: Stream[A],
                             focus: A,
@@ -127,16 +138,17 @@ final case class Zipper[+A](lefts: Stream[A],
   def previousC: Zipper[A] = ...
 }
 					</code></pre>
+                                  <p>Nil :: l3 :: l2 :: l1&nbsp;&nbsp;&nbsp;&nbsp;focus&nbsp;&nbsp;&nbsp;&nbsp;r1 :: r2 :: r3 :: Nil</p>
 
                                 </section>
                                 <section>
                                   <pre><code class="scala" style="max-height: 700px;width: 875px;">
+val ints: Option[Zipper[Int]] = List(1, 2, 3, 4, 5).toZipper
+
 val dayOfWeek: Zipper[String] = NonEmptyList("Sunday", "Monday",
                                              "Tuesday", "Wednesday",
                                              "Thursday", "Friday",
                                              "Saturday").toZipper
-
-val ints: Option[Zipper[Int]] = List(1, 2, 3, 4, 5).toZipper
 
 val numberLine: Zipper[Int] = Zipper(Stream.from(-1, -1),
                                      0,
@@ -147,8 +159,8 @@ val numberLine: Zipper[Int] = Zipper(Stream.from(-1, -1),
                                   <pre><code class="scala" style="max-height: none;">
 object AdSlotZipper {
   trait Slot
-  case class SlotA(info: String) extends Slot
-  case class SlotB(info: String) extends Slot
+  case class ClassSlot(className: String) extends Slot
+  case class GroupSlot(groupNumber: Int) extends Slot
 
   val slots = Ref(Option.empty[Zipper[Slot]])
 
@@ -165,6 +177,11 @@ object AdSlotZipper {
   }
 }
                                   </code></pre>
+                                </section>
+                                <section>
+                                  <p>Psst.</p>
+                                  <p>Zipper is a <em>comonad</em>, the categorical dual of a <em>monad</em>.</p>
+                                  <p>You're programming with math!</p>
                                 </section>
                                 <section>
                                   <h2>Heap</h2>

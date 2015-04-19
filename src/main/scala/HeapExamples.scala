@@ -14,11 +14,12 @@ trait HeapExamples {
     * greater. An Ordering is the result of comparing two items (EQ,
     * LT, GT).
     */
+
   case class Employee(id: Int, firstName: String, lastName: String, age: Int, hireDate: DateTime)
 
-  import Ordering._
-
   implicit val nameOrder = new Order[Employee] {
+    import Ordering._
+
     def order(x: Employee, y: Employee) = {
       if(x.lastName < y.lastName) LT
       else if(x.lastName > y.lastName) GT
@@ -35,12 +36,15 @@ trait HeapExamples {
 
   // employees
   val employeesByName = Heap.fromData(List(emp3, emp2, emp1))
+
+  // A Heap of random integers
+  val randomInts = Heap.fromData(Stream.continually(scala.util.Random.nextInt).take(100))
 }
 
 object EmployeesWithDateOrder extends HeapExamples {
 
   implicit val hireDateOrder = new Order[Employee] {
-    def order(x: Employee, y: Employee) = Ordering.fromInt(x.hireDate.compareTo(y.hireDate))
+    def order(x: Employee, y: Employee) = Ordering.fromInt(x.hireDate compareTo y.hireDate)
   }
 
   // employees

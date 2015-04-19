@@ -1,0 +1,69 @@
+* Introduction
+** Difficult to learn
+*** Unfamiliar
+*** Arcane
+*** Abstract
+** Goals
+*** Explore
+    Look at a few classes in detail. See what they do and how they
+    relate to other Scalaz classes.
+*** Study Type Signatures
+    Go into detail on the type signatures and really understand what
+    they mean.
+**** Type Parameters
+#+BEGIN_SRC scala
+class Fubar[A] {
+  def map[B](f: (A) => B): Fubar[B]
+}
+#+END_SRC
+    Type parameters are universally quantified. In the previous
+    example the type parameter A can take on *any* type at all. That
+    is it should be as "For all A".
+**** By Name Paramters
+   By name parameters are also called lazy or non-strict. A lazy
+   parameter is a reference to a computation that will only execute
+   when the parameter is evaluated.
+**** Implicits
+***** Implicit conversion
+***** Implicit parameters
+***** Implicit evidence
+* Either
+#+BEGIN_SRC scala
+sealed abstract class \/[+A, +B] extends Product with Serializable {
+  /** Map on the right of this disjunction. */
+  def map[D](g: B => D): (A \/ D) =
+    this match {
+      case \/-(a)     => \/-(g(a))
+      case b @ -\/(_) => b
+    }
+  /** Apply a function in the environment of the right of this disjunction. */
+  def ap[AA >: A, C](f: => AA \/ (B => C)): (AA \/ C) =
+    f flatMap (ff => map(ff(_)))
+
+  /** Bind through the right of this disjunction. */
+  def flatMap[AA >: A, D](g: B => (AA \/ D)): (AA \/ D) =
+    this match {
+      case a @ -\/(_) => a
+      case \/-(b) => g(b)
+    }
+  /** Return the value from whichever side of the disjunction is defined, given a commonly assignable type. */
+  def merge[AA >: A](implicit ev: B <~< AA): AA =
+    this match {
+      case -\/(a) => a
+      case \/-(b) => ev(b)
+    }
+}
+#+END_SRC
+
+* Validation
+** NonEmptyList
+** Semigroup
+** Applicative Functor
+
+* Zipper
+* Heap
+** Priority queue
+** Order/Ordering
+** Not stack safe
+* Applicative
+* Lenses -- Maybe

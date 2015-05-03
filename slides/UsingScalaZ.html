@@ -50,6 +50,22 @@
                   <!-- background-color: #777; -->
                   float: right;
                   }
+
+                  #wrapper {
+                      display: table;
+                      width: 100%;
+                      min-width: 1000px;
+                      min-height: 400px;
+                  }
+                  #column-1 {
+                      display: table-cell;
+                      /* background: #DDF; */
+                      width: 150px;
+                  }
+                  #column-2 {
+                      display: table-cell;
+                      /* background: #EEE; */
+                  }
                 </style>
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
@@ -97,45 +113,47 @@
                                   </div>
                                 </section>
 
-                                <section>
-                                  <h2>Zipper</h2>
-                                  <ul>
-                                    <li>A non-empty list with a focus
-                                      <ul>
-                                        <li>All operations happen at the focus</li>
-                                        <li>Read, modify or delete the item at the focus</li>
-                                        <li>Move the focus to the left or right (potentially wrapping at the ends)</li>
-                                        <li>Add a new item to the left or right of the focus</li>
-                                        <li>All operations are O(1) except for wrapping from end to end which is O(n)</li>
-                                      </ul>
-                                    </li>
-                                  </ul>
-                                </section>
+                                <!-- <section> -->
+                                <!--   <h2>Zipper</h2> -->
+                                <!--   <ul> -->
+                                <!--     <li>A non-empty list with a focus -->
+                                <!--       <ul> -->
+                                <!--         <li>All operations happen at the focus</li> -->
+                                <!--         <li>Read, modify or delete the item at the focus</li> -->
+                                <!--         <li>Move the focus to the left or right (potentially wrapping at the ends)</li> -->
+                                <!--         <li>Add a new item to the left or right of the focus</li> -->
+                                <!--         <li>All operations are O(1) except for wrapping from end to end which is O(n)</li> -->
+                                <!--       </ul> -->
+                                <!--     </li> -->
+                                <!--   </ul> -->
+                                <!-- </section> -->
+
+                                <!-- <section> -->
+                                <!--   <blockquote cite="https://www.st.cs.uni-saarland.de/edu/seminare/2005/advanced-fp/docs/huet-zipper.pdf"> -->
+                                <!--     &ldquo;Going up -->
+                                <!--     and down in the structure is analogous to closing and opening a zipper in a piece -->
+                                <!--     of clothing, whence the name.&rdquo;<br> -->
+                                <!--     &mdash; GERARD HUET -->
+                                <!--   </blockquote> -->
+                                <!--   <p><small>https://www.st.cs.uni-saarland.de/edu/seminare/2005/advanced-fp/docs/huet-zipper.pdf</small></p> -->
+                                <!-- </section> -->
 
                                 <section>
-                                  <blockquote cite="https://www.st.cs.uni-saarland.de/edu/seminare/2005/advanced-fp/docs/huet-zipper.pdf">
-                                    &ldquo;Going up
-                                    and down in the structure is analogous to closing and opening a zipper in a piece
-                                    of clothing, whence the name.&rdquo;<br>
-                                    &mdash; GERARD HUET
-                                  </blockquote>
-                                  <p><small>https://www.st.cs.uni-saarland.de/edu/seminare/2005/advanced-fp/docs/huet-zipper.pdf</small></p>
-                                </section>
-
-                                <section>
+                                  <p>Zipper</p>
 				  <!-- <pre><code class="scala" data-trim contenteditable> -->
 					<pre><code class="scala">
 final case class Zipper[+A](lefts: Stream[A],
                             focus: A,
                             rights: Stream[A]) {
-  def update[AA >: A](focus: AA): Zipper[AA] = ...
-  def delete: Option[Zipper[A]] = ...
-  def next: Option[Zipper[A]] = ...
-  def previous: Option[Zipper[A]] = ...
-  def insertLeft[AA >: A](y: AA): Zipper[AA] = ...
-  def insertRight[AA >: A](y: AA): Zipper[AA] = ...
-  def nextC: Zipper[A] = ...
-  def previousC: Zipper[A] = ...
+  def update[AA >: A](focus: AA): Zipper[AA] = ...  // O(1)
+  def delete: Option[Zipper[A]] = ...               // O(1)
+  def next: Option[Zipper[A]] = ...                 // O(1)
+  def previous: Option[Zipper[A]] = ...             // O(1)
+  def insertLeft[AA >: A](y: AA): Zipper[AA] = ...  // O(1)
+  def insertRight[AA >: A](y: AA): Zipper[AA] = ... // O(1)
+  def nextC: Zipper[A] = ...                        // O(n)
+  def previousC: Zipper[A] = ...                    // O(n)
+  ...
 }
 					</code></pre>
                                   <p>Nil :: l3 :: l2 :: l1&nbsp;&nbsp;&nbsp;&nbsp;focus&nbsp;&nbsp;&nbsp;&nbsp;r1 :: r2 :: r3 :: Nil</p>
@@ -183,22 +201,28 @@ object AdSlotZipper {
                                   <p>Zipper is a <em>comonad</em>, the categorical dual of a <em>monad</em>.</p>
                                   <p>You're programming with math!</p>
                                 </section>
+                                <!-- <section> -->
+                                <!--   <h2>Heap</h2> -->
+                                <!--   <ul> -->
+                                <!--     <li>Heap is a priority queue</li> -->
+                                <!--     <li>O(1) access to minimum value</li> -->
+                                <!--     <li>O(1) inserts</li> -->
+                                <!--     <li>O(log n) deleteMin</li> -->
+                                <!--     <li>Elements are ordered in increasing order</li> -->
+                                <!--     <li>Uses scalaz.Order to define the order</li> -->
+                                <!--     <li><em>Optimal Purely Functional Priority Queues</em>, Brodal & Okasaki</li> -->
+                                <!--   </ul> -->
+                                <!-- </section> -->
                                 <section>
-                                  <h2>Heap</h2>
-                                  <ul>
-                                    <li>Heap is a priority queue</li>
-                                    <li>Elements are ordered in increasing order</li>
-                                    <li>Uses scalaz.Order to define the order</li
-                                  </ul>
-                                </section>
-                                <section>
+                                  <p>Heap&nbsp;&ndash;&nbspA priority queue</p>
                                   <pre><code class="scala">
 sealed abstract class Heap[A] {
-  def insert(a: A)(implicit o: Order[A]) = ...
-  def uncons: Option[(A, Heap[A])] = ...
-  def minimum: A = ...
-  def minimumO: Option[A] = ...
-  def deleteMin: Heap[A] = ...
+  def insert(a: A)(implicit o: Order[A]) = ...  // O(1)
+  def uncons: Option[(A, Heap[A])] = ...        // O(log n)
+  def minimum: A = ...                          // O(1)
+  def minimumO: Option[A] = ...                 // O(1)
+  def deleteMin: Heap[A] = ...                  // O(log n)
+  ...
 }
                                   </code></pre>
                                 </section>
@@ -273,6 +297,379 @@ employeesByHireDate.toList.mkString("\n")
                                   </ol>
                                   <p><small>http://docs.scala-lang.org/tutorials/FAQ/finding-implicits.html</small></p>
                                 </section>
+				<section>
+                                  <strong><p>A digression:  The <em>Type Class</em> pattern</p></strong>
+                                  <p>Starts with a trait or abstract class</p>
+                                  <pre><code class="scala">
+trait Plusser[A] {
+  def plus(x: A, y: A): A
+}
+                                  </code></pre>
+                                </section>
+                                <section>
+                                  <p>Instances of the type class in implicit scope</p>
+                                  <pre><code class="scala" style="width: 957px">
+object Plusser {
+  implicit val IntPlusser = new Plusser[Int] {
+    def plus(x: Int, y: Int): Int = x + y
+  }
+  implicit def ListPlusser[A] = new Plusser[List[A]] {
+    def plus(x: List[A], y: List[A]): List[A] = x ++ y
+  }
+  ...
+}
+                                  </code></pre>
+                                </section>
+                                <section>
+                                  <p>Implicit conversions to an ops/syntax instance</p>
+                                  <pre><code class="scala" style="width: 957px">
+object Plusser {
+  ...
+  implicit def ToIntPlusserOps(x: Int): PlusserOps[Int] =
+    new PlusserOps[Int](x)
+  implicit def ToListPlusserOps[A](x: List[A]): PlusserOps[List[A]] =
+    new PlusserOps[List[A]](x)
+}
+                                  </code></pre>
+                                </section>
+                                <section>
+                                  <p>An <em>Ops</em> class to <em>add</em> methods to classes with type class instances</p>
+                                  <pre><code class="scala">
+class PlusserOps[A](val self: A)(implicit val P: Plusser[A]) {
+  def plus(y: A) = P.plus(self, y)
+}
+                                  </code></pre>
+				</section>
+                                <section>
+                                  <p>Usage</p>
+                                  <pre><code class="scala" style="width: 957px">
+import Plusser._
+
+def intUse(a: Int, b: Int) = a plus b
+def listUse[A](a: List[A], b: List[A]) = a plus b
+                                  </code></pre>
+                                </section>
+
+                                <section>
+                                  <p>The ScalaZ <em>Functor</em> type class</p>
+                                  <pre><code class="scala">
+trait Functor[F[_]] extends InvariantFunctor[F] { self =>
+  def map[A, B](fa: F[A])(f: A => B): F[B]
+  ...
+}
+                                  </code></pre>
+                                  <pre><code class="scala">
+trait ListInstances extends ListInstances0 {
+  implicit val listInstance = new ... with MonadPlus[List] ... {
+    override def map[A, B](l: List[A])(f: A => B) = l map f
+    ...
+}
+                                  </code></pre>
+                                  <p><small><em>Functor provides map()</em></small></p>
+                                  <p><small><em>Plus some laws</em></small></p>
+                                </section>
+                                <section>
+                                  <p>The ScalaZ <em>Applicative Functor</em> type class</p>
+                                  <pre><code class="scala">
+trait Apply[F[_]] extends Functor[F] { self =>
+  def ap[A,B](fa: => F[A])(f: => F[A => B]): F[B]
+  ...
+}
+                                  </code></pre>
+                                  <pre><code class="scala">
+trait Applicative[F[_]] extends Apply[F] { self =>
+  def point[A](a: => A): F[A]
+  ...
+}
+                                  </code></pre>
+                                  <p><small><em>Applicative adds ap() and point() to Functor</em></small></p>
+                                  <p><small><em>Plus some laws</em></small></p>
+                                </section>
+                                <section>
+                                  <p>Applicative Builder</p>
+                                  <pre><code class="scala">
+case class Something(s: String, i: Int)
+def doSomething(s: String, i: Int) = s"$s - $i"
+
+("ABC".some |@| 1.some)(doSomething) // Some("ABC - 1")
+("ABC".some |@| none)(doSomething)   // None
+
+val f1: Future[String] = ...
+val f2: Future[Int] = ...
+val f3 = (f1 |@| f2)(Something.apply) // Future[Something]
+
+({println("a"); none[Int]} |@| {println("b"); none[Int]}){_+_}
+// a
+// b
+// res13: Option[Int] = None
+                                  </code></pre>
+                                  <p><small><em>ApplicativeBuilder provides syntax that makes it easier to use Applicative</em></small></p>
+                                </section>
+                                <section>
+                                  <p>The Scalaz <em>Monad</em> type class</p>
+                                  <pre><code class="scala">
+trait Monad[F[_]] extends Applicative[F] with Bind[F] { self =>
+  //Note: Scalaz identifies Monad.return with Applicative.point
+}
+                                  </code></pre>
+                                  <pre><code class="scala">
+trait Bind[F[_]] extends Apply[F] { self =>
+  def bind[A, B](fa: F[A])(f: A => F[B]): F[B]
+}
+                                  </code></pre>
+                                  <p><small><em>Monad adds bind() to Applicative</em></small></p>
+                                  <p><small><em>Plus some laws</em></small></p>
+                                </section>
+                                <section>
+                                  <p>Getting back to the real world...</p>
+                                </section>
+                                <section>
+                                  <p><em>Disjunction</em> a.k.a. <em>Either</em></p>
+                                  <p><small>(or just make a V with your hands)</small></p>
+                                  <pre><code class="scala">
+sealed abstract class \/[+A, +B] {
+  def map[D](g: B => D): (A \/ D) = ...
+  def flatMap[AA >: A, D](g: B => (AA \/ D)): (AA \/ D) = ...
+  def ap[AA >: A, C](f: => AA \/ (B => C)): (AA \/ C) = ...
+
+  ...
+}
+
+final case class -\/[+A](a: A) extends (A \/ Nothing) // Left
+final case class \/-[+B](b: B) extends (Nothing \/ B) // Right
+                                  </code></pre>
+                                  <p>A <em>right-biased</em> either.</p>
+                                  <p>Map, flatMap, filter, etc. operate on <em>right</em> values.</p>
+                                  <!-- <pre><code class="scala"> -->
+                                  <!-- </code></pre> -->
+                                </section>
+                                <section>
+                                  <p>Some examples</p>
+                                  <pre><code class="scala">
+val aRight: String \/ Int = \/-(42)  // Note infix type signature
+val aLeft: \/[String, Int] = -\/("Something BAD happened!")
+val anotherRight = 42.right[String]  // String \/ Int
+val anotherLeft = "Bang!".left       // String \/ Nothing
+                                  </code></pre>
+                                  <p>\/ instances are either a left of A or a right of B.</p>
+                                  <p>By convention a right is used for good values and left is used for errors.</p>
+                                </section>
+                                <section>
+                                  <p>Right bias</p>
+                                  <pre><code class="scala">
+aRight map (_ + 2)      // \/-(44)
+aRight filter(_%2 == 0) // \/-(42)
+
+aLeft map (_ + 2)       // -\/("Something BAD happened")
+aLeft filter(_%2 == 0)  // -\/("Something BAD happened")
+                                  </code></pre>
+                                </section>
+                                <section>
+                                  <p>Disjunction is a <em>Monad</em></p>
+                                  <!-- <pre><code class="scala" style="width: 915px"> -->
+                                  <pre><code class="scala">
+def safeDiv(a: Int, b: Int): Throwable \/ Int = {
+  try {
+    (a / b).right
+  } catch {
+    case NonFatal(e) => e.left
+  }
+}
+
+def safeDiv4(a: Int, b: Int, c: Int, d: Int): Throwable \/ Int =
+  for {
+    x <- safeDiv(a, b)
+    y <- safeDiv(x, c)
+    z <- safeDiv(y, d)
+  } yield z
+                                  </code></pre>
+                                  <small>
+                                  <p>The <em>for comprehension</em>
+                                  stops at the first left value.</p><p>The
+                                  result is either a Right containing z
+                                  or the first Left returned from a safeDiv().</p>
+                                  </small>
+                                </section>
+                                <section>
+                                  <p>Pattern matching</p>
+                                  <pre><code class="scala">
+safeDiv(4, 2) match {
+  case -\/(e) => ...
+  case \/-(v) => ...
+}
+                                  </code></pre>
+                                </section>
+                                <section>
+                                  <p><em>Validation</em>&ndash;Accumlate errors</p>
+                                  <pre><code class="scala">
+sealed abstract class Validation[+E, +A] {
+  def ap[EE >: E, B](x: => Validation[EE, A => B])
+                    (implicit E: Semigroup[EE]): Validation[EE, B]
+  def map[B](f: A => B): Validation[E, B] = this match {
+  def leftMap[C](f: E => C): Validation[C, A]
+  ...
+}
+
+final case class Success[A](a: A) extends Validation[Nothing, A]
+final case class Failure[E](e: E) extends Validation[E, Nothing]
+                                  </code></pre>
+                                  <p><small>A <em>Semigroup</em> is a type class with a single method, <em>append</em></small></p>
+                                </section>
+                                <section>
+                                  <p></p>
+                                  <pre><code class="scala" style="width: 950px">
+case class Person(firstName: String, lastName: String, age: Int)
+
+def validateNonEmptyString(field: String,
+                           value: String): ValidationNel[String, String] =
+  if(value.isEmpty) s"$field cannot be empty.".failureNel
+  else value.successNel
+
+def validateNonNegativeInteger(field: String,
+                               value: String): ValidationNel[String, Int] =
+  value.parseInt
+    .leftMap(_ => s"$field must be an integer value.".wrapNel)
+    .ensure(s"$field cannot be negative.".wrapNel)(_ >= 0)
+                                  </code></pre>
+                                  <small>
+                                  <p><em>ValidationNel[String, Person]</em> is a convient shortcut for
+                                    <em>Validation[NonEmptyList[String], Person]</em>
+                                  </p>
+                                  <p>
+                                    <em>"string".wrapNel</em> is equivalent to <em>NonEmptyList("string")</em>
+                                  </p>
+                                  </small>
+                                </section>
+                                <section>
+                                  <p></p>
+                                  <pre><code class="scala">
+def makePerson(firstName: String, lastName: String,
+               ageStr: String): ValidationNel[String, Person] =
+  (validateNonEmptyString("First name", firstName)
+    |@| validateNonEmptyString("Last name", lastName)
+    |@| validateNonNegativeInteger("Age", ageStr)
+  )(Person.apply)
+                                  </code></pre>
+                                </section>
+                                <section>
+                                  <p></p>
+                                  <!-- <pre><code class="scala" style="width: 950px"> -->
+                                  <pre><code class="scala">
+makePerson("First", "Last", "42")
+// Success(Person("First", "Last", 42))
+
+makePerson("", "", "42")
+// Failure(NonEmptyList("First name cannot be empty.",
+//                      "Last name cannot be empty."))
+
+makePerson("First", "Last", "age")
+// Failure(NonEmptyList("Age must be an integer"))
+
+makePerson("", "", "-42")
+// Failure(NonEmptyList("First name cannot be empty.",
+//                      "Last name cannot be empty.",
+//                      "Age cannot be negative."))
+                                  </code></pre>
+                                </section>
+                                <section>
+                                  <h3>Recap &ndash; What have we seen so far</h3>
+                                  <ul>
+                                    <li>Some useful functional (immutable) data structures</li>
+                                    <li>The <em>Type Class</em> pattern</li>
+                                    <li>Scala type signatures and parametricity</li>
+                                    <li>Some ScalaZ code</li>
+                                  </ul>
+                                </section>
+                                <section>
+                                  <h3>What's it all for?</h3>
+                                  <img class="fragment" src="xkcd-functional.png">
+				  <small>
+                                    <p class="fragment">Functional programming combines the flexibility
+                                   and power of abstract mathematics with the intuitive clarity of abstract mathematics.</p>
+                                  </small>
+                                </section>
+
+                                <section>
+                                  <p>Functional error handling</p>
+                                  <!-- <small><p>Monadic sylte &ndash; Sequence compuations and fail fast</p></small> -->
+                                      <pre><code class="scala" style="width: 900px">
+// Monadic style - Sequence computations and fail fast
+def getDBConnection(): Throwable \/ Connection
+def getUserForName(conn: Connection, name: UserName): Throwable \/ User
+def updateUserAddress(conn: Connection, user: User,
+                      address: Address): Throwable \/ Boolean
+
+for {
+  c <- getDBConnection()
+  u <- getUserForName(c, name)
+  r <- updateUserAddress(c, u, address)
+} yield r
+                                     </code></pre>
+                                  <!-- <small><p>Applicative style &ndash; Sequence compuations and collect all failures</p></small> -->
+                                  <pre><code class="scala" style="width: 900px">
+// Applicative style - Sequence computations collecting all failures
+(validateNonEmptyString("First name", firstName)
+  |@| validateNonEmptyString("Last name", lastName)
+  |@| validateNonNegativeInteger("Age", ageStr)
+)(Person.apply)
+                                  </code></pre>
+				  <aside class="notes">
+                                    <small>
+                                      <ul>
+                                        <li>Types
+                                          <ul>
+                                            <li>Encode the fact that they are the result of a computation that might fail</li>
+                                            <li>Failure cannot be ignored</li>
+                                            <li>ADT allows encoding domain struction in the types</li>
+                                          </ul>
+                                        </li>
+                                        <li>Imperitive control flow
+                                          <ul>
+                                            <li>Imagine the imperitive version of this code (if/else, exceptions, etc.)</li>
+                                            <li>Dreary to write</li>
+                                            <li>Obscures actual computation with lots of boilerplate</li>
+                                          </ul>
+                                        </li>
+                                        <li>Functional control flow
+                                          <ul>
+                                            <li>Monadic style sequences computations that might fail</li>
+                                            <li>Subsequent computations can depend on previous results</li>
+                                            <li>Where did all that explicit control flow go? It's all <strong>Function Composition</strong></li>
+                                          </ul>
+                                        </li>
+                                      </ul>
+                                    </small>
+				  </aside>
+                                </section>
+
+<!--                                 <section> -->
+<!--                                   <p>Functional error handling</p> -->
+<!--                                   <div id="wrapper"> -->
+<!--                                     <div id="column-1"> -->
+<!--                                       <pre><code class="scala" style="width: 470px"> -->
+<!-- def getDBConnection(): Throwable \/ Conn -->
+<!-- for { -->
+<!--   c <- getDBConnection() -->
+<!--   u <- getUserForName(c, name) -->
+<!--   o <- getOrdersForUser(c, u) -->
+<!-- } yield o -->
+<!--                                      </code></pre> -->
+<!--                                   </div> -->
+<!--                                   <div id="column-2"> -->
+<!--                                   <pre><code class="scala"> -->
+<!-- (int <~ whiteSpace -->
+<!--   |@| stringOf(letter) <~ whiteSpace -->
+<!--   |@| stringOf(letter) <~ whiteSpace -->
+<!-- )(Person.apply) -->
+<!--                                   </code></pre> -->
+<!--                                   </div> -->
+<!--                                   </div> -->
+<!--                                   <\!-- <div><p>ABC</p></div> -\-> -->
+<!--                                   <\!-- <div><p>DEF</p></div> -\-> -->
+<!--                                 </section> -->
+
+
+
 				<section>
 					<h2>Hello There</h2>
 					<p>

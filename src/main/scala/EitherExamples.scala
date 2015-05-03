@@ -19,10 +19,13 @@ object EitherExample {
     * of the logical disjunction (OR). Right is spelled \/- (not that
     * the dash is on the right side.)
     */
-  val aRight: \/[String, Int] = \/-(42)
+  val aRight: String \/ Int = \/-(42)  // Note infix type signature
 
   // Left is spelled -\/ (note the dash is on the left.)
   val aLeft: \/[String, Int] = -\/("Something BAD happened!")
+
+  val anotherRight = 42.right[String]              // String \/ Int
+  val anotherLeft = "Something BAD happened!".left // String \/ Nothing
 
   /** Unlike Scala.Either, \/ is "right biased". This means that methods
     * like map, flatMap and filter operate on \/- values.
@@ -33,16 +36,16 @@ object EitherExample {
   val filtered = aRight filter(_%2 == 0) // \/-(42)
 
   val notMapped = aLeft map (_ + 2) // -\/("Something BAD happened")
-  val notFiltered = aLeft filter(_%2 == 0) // -\/-("Something BAD happened")
+  val notFiltered = aLeft filter(_%2 == 0) // -\/("Something BAD happened")
 
   /** Either can be used to lift exception-throwing functions
     * into a referentially transparent form.
     */
-  def safeDiv(a: Int, b: Int): \/[Throwable, Int] = {
+  def safeDiv(a: Int, b: Int): Throwable \/ Int = {
     try {
-      \/-(a / b)
+      (a / b).right
     } catch {
-      case NonFatal(e) => -\/(e)
+      case NonFatal(e) => e.left
     }
   }
 
@@ -53,7 +56,7 @@ object EitherExample {
     * Recall that a Scala for comprehension is really a combination of
     * flatMap and map.
     */
-  def sillyFunction(a: Int, b: Int, c: Int, d: Int): \/[Throwable, Int] =
+  def sillyFunction(a: Int, b: Int, c: Int, d: Int): Throwable \/ Int =
     for {
       x <- safeDiv(a, b)
       y <- safeDiv(x, c)

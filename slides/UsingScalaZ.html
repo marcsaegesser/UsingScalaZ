@@ -78,13 +78,32 @@
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
+
+                                <!-- =================================================================================== -->
+
 				<section>
 					<h2>Actually Using ScalaZ</h2>
 					<em><h5>An Introduction for the Rest of Us</h5></em>
-					<p>
-						<small>Marc Saegesser / <a href="http://twitter.com/marcsaegesser">@marcsaegesser</a></small>
-					</p>
+					<p><small>Marc Saegesser (<a href="http://twitter.com/marcsaegesser">@marcsaegesser)</a></small></p>
+                                        <p><small>AMI Entertainment Network, inc.</small></p>
+				  <aside class="notes">
+                                    <small>
+                                      <ol>
+                                        <li>Over the last couple years I found uses for several ScalaZ classes in real code</li>
+                                        <li>When I talked about that I got strange looks
+                                          <ol>
+                                            <li>Isn't that hard?</li>
+                                            <li>I looked at that once and couldn't understand it</li>
+                                            <li>I can't do that. It's like programming with math!</li>
+                                          </ol>
+                                        </li>
+                                        <li>Actually, they have a point</li>
+                                      </ol>
+                                    </small>
+                                  </aside>
 				</section>
+
+                                <!-- =================================================================================== -->
 
                                 <section>
                                   <h2>Why the Bad Rep?</h2>
@@ -94,10 +113,35 @@
                                       <li>Large - <em style="color:#A9A9A9;">Many classes, many unrelated to each other</em></li>
                                       <li>Arcane - <em style="color:#A9A9A9;">Functor, Applicative, Monad. Oh, my!</em></li>
                                       <li>Abstract - <em style="color:#A9A9A9;">Genericity is powerful, but not obvious</em></li>
-                                      <li>Documentation - <em style="color:#A9A9A9;">Yeah, it's that bad</em></li>
+                                      <li>Documentation - <em style="color:#A9A9A9;">Mostly missing</em></li>
                                     </ul>
                                   </div>
+				  <aside class="notes">
+                                    <small>
+                                      <ol>
+                                        <li>FP <em>is</em> different. It isn't hard; it's just unfamiliar</li>
+                                        <li>ScalaZ is a huge library
+                                          <ol>
+                                            <li>Looking at the ScalaDoc you don't know where to start</li>
+                                            <li>It's a library for general purpose computing not for a particular target.
+                                              You can pick up an unfamiliar JSON parsing library and figure it out. The same cannot be
+                                              said for ScalaZ</li>
+                                          </ol>
+                                        </li>
+                                        <li>ScalaZ wears math on its sleeve. Haskell envy is a thing. This is just a fact of life. You will need to learn some new words.</li>
+                                        <li>Types and parametricity are sometimes better than documentation.</li>
+                                        <li>Plan
+                                          <ol>
+                                            <li>Examples of useful ScalaZ data structures. Provides a starting point getting started.</li>
+                                            <li>A quick overview of things needed to get around in the ScalaZ code</li>
+                                            <li>Cover language you'll need</li>
+                                          </ol>
+                                        </li>
+                                      </ol>
+                                    </small>
                                 </section>
+
+                                <!-- =================================================================================== -->
 
                                 <section>
                                   <h2>Topics</h2>
@@ -105,38 +149,29 @@
                                     <ul>
                                       <li>Zipper - <em style="color:#A9A9A9;">A list with a cursor</em></li>
                                       <li>Heap - <em style="color:#A9A9A9;">A priority queue</em></li>
-                                      <li>Type Classes - <em style="color:#A9A9A9;">Ad Hoc polymorphism (ooh)</em></li>
+                                      <li>Typeclasses - <em style="color:#A9A9A9;">Ad Hoc polymorphism (ooh)</em></li>
+                                      <li>ScalaZ Typeclasses - <em style="color:#A9A9A9;">Warning: some math words</em></li>
                                       <li>Disjunction - <em style="color:#A9A9A9;">A taste of Monads</em></li>
                                       <li>Validation - <em style="color:#A9A9A9;">An applicative functor</em></li>
                                       <li>Wrap up - <em style="color:#A9A9A9;">What's the point?</em></li>
-                                    </ul>
+                                    </ol>
                                   </div>
+                                  <aside class="notes">
+                                    <!-- <small> -->
+                                      <ol>
+                                        <li>Start with Zipper and Heap; two useful functional data structures that you can use without
+                                          going all category theory</li>
+                                        <li>To really use ScalaZ you'll need to be able to read the type signatures and some code.</li>
+                                        <li>ScalaZ is based on the typeclass pattern plus it's very useful in its own right</li>
+                                        <li>Followed by a whirlwind tour the basic ScalaZ typeclass. Warning, there will be strange words</li>
+                                        <li>Back to the real world. Disjunction (Either) and Validation, the supposed gateway drugs to ScalaZ</li>
+                                        <li>Wrap it up with a nice bow.</li>
+                                      </ol>
+                                    <!-- </small> -->
+                                  </aside>
                                 </section>
 
-                                <!-- <section> -->
-                                <!--   <h2>Zipper</h2> -->
-                                <!--   <ul> -->
-                                <!--     <li>A non-empty list with a focus -->
-                                <!--       <ul> -->
-                                <!--         <li>All operations happen at the focus</li> -->
-                                <!--         <li>Read, modify or delete the item at the focus</li> -->
-                                <!--         <li>Move the focus to the left or right (potentially wrapping at the ends)</li> -->
-                                <!--         <li>Add a new item to the left or right of the focus</li> -->
-                                <!--         <li>All operations are O(1) except for wrapping from end to end which is O(n)</li> -->
-                                <!--       </ul> -->
-                                <!--     </li> -->
-                                <!--   </ul> -->
-                                <!-- </section> -->
-
-                                <!-- <section> -->
-                                <!--   <blockquote cite="https://www.st.cs.uni-saarland.de/edu/seminare/2005/advanced-fp/docs/huet-zipper.pdf"> -->
-                                <!--     &ldquo;Going up -->
-                                <!--     and down in the structure is analogous to closing and opening a zipper in a piece -->
-                                <!--     of clothing, whence the name.&rdquo;<br> -->
-                                <!--     &mdash; GERARD HUET -->
-                                <!--   </blockquote> -->
-                                <!--   <p><small>https://www.st.cs.uni-saarland.de/edu/seminare/2005/advanced-fp/docs/huet-zipper.pdf</small></p> -->
-                                <!-- </section> -->
+                                <!-- =================================================================================== -->
 
                                 <section>
                                   <p>Zipper</p>
@@ -151,14 +186,35 @@ final case class Zipper[+A](lefts: Stream[A],
   def previous: Option[Zipper[A]] = ...             // O(1)
   def insertLeft[AA >: A](y: AA): Zipper[AA] = ...  // O(1)
   def insertRight[AA >: A](y: AA): Zipper[AA] = ... // O(1)
-  def nextC: Zipper[A] = ...                        // O(n)
-  def previousC: Zipper[A] = ...                    // O(n)
+  def nextC: Zipper[A] = ...                        // O(1)/O(n)
+  def previousC: Zipper[A] = ...                    // O(1)/O(n)
   ...
 }
 					</code></pre>
                                   <p>Nil :: l3 :: l2 :: l1&nbsp;&nbsp;&nbsp;&nbsp;focus&nbsp;&nbsp;&nbsp;&nbsp;r1 :: r2 :: r3 :: Nil</p>
-
+                                  <aside class="notes">
+                                    <small>
+                                      <ol>
+                                        <li>More propery called a List Zipper</li>
+                                        <li>Like a List but with efficient access and modification at a cursor that can be anywhere within the list</li>
+                                        <li>Non-empty. Operations that delete items or might move off the end return Options</li>
+                                        <li>Visual metaphor of unzipping/zipping the data structure around the focus.
+                                          <ol>
+                                            <li>I don't see it</li>
+                                            <li>It's a well known functional data structure and the name has stuck</li>
+                                            <li>Due to Gérard Huet, 1997</li>
+                                            <li>Three hard things in computer science: cache consistency, naming things and off-by-one errors</li>
+                                          </ol>
+                                        </li>
+                                        <li>All access and modification methods are O(1)</li>
+                                        <li>Only nextC/prevC are O(n) and then only when wrapping from one end to the other</li>
+                                      </ol>
+                                    </small>
+                                  </aside>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <pre><code class="scala" style="max-height: 700px;width: 875px;">
 val ints: Option[Zipper[Int]] = List(1, 2, 3, 4, 5).toZipper
@@ -172,7 +228,21 @@ val numberLine: Zipper[Int] = Zipper(Stream.from(-1, -1),
                                      0,
                                      Stream.from(1))
                                   </code></pre>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li>Examples
+                                        <ol>
+                                          <li>The toZipper method creates Zipper from other data types. We'll talk about how toZipper was added to List a little later.</li>
+                                          <li>Note that List.toZipper returns an Option because Lists can be empty but Zippers can't</li>
+                                          <li>NonEmptyList is a ScalaZ list type that can't be empty. NonEmptyList.toZipper doesn't need to be optional.</li>
+                                          <li>Zipper is actually based on Streams (lazy lists) so a Zipper can be infinite.</li>
+                                          <li>Mention that XMonad uses a Zipper to keep track of windows and workspaces</li>
+                                    </ol>
+                                  </aside>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <pre><code class="scala" style="max-height: none;">
 object AdSlotZipper {
@@ -195,24 +265,25 @@ object AdSlotZipper {
   }
 }
                                   </code></pre>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li>How to use a functional data structure like Zipper?</li>
+                                      <li>Because Zipper is immutable it's a good candidate to use with STM.</li>
+                                    </ol>
+                                    <p>Maybe remove this slide.</p>
+                                  </aside>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <p>Psst.</p>
                                   <p>Zipper is a <em>comonad</em>, the categorical dual of a <em>monad</em>.</p>
                                   <p>You're programming with math!</p>
                                 </section>
-                                <!-- <section> -->
-                                <!--   <h2>Heap</h2> -->
-                                <!--   <ul> -->
-                                <!--     <li>Heap is a priority queue</li> -->
-                                <!--     <li>O(1) access to minimum value</li> -->
-                                <!--     <li>O(1) inserts</li> -->
-                                <!--     <li>O(log n) deleteMin</li> -->
-                                <!--     <li>Elements are ordered in increasing order</li> -->
-                                <!--     <li>Uses scalaz.Order to define the order</li> -->
-                                <!--     <li><em>Optimal Purely Functional Priority Queues</em>, Brodal & Okasaki</li> -->
-                                <!--   </ul> -->
-                                <!-- </section> -->
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <p>Heap&nbsp;&ndash;&nbspA priority queue</p>
                                   <pre><code class="scala">
@@ -225,7 +296,20 @@ sealed abstract class Heap[A] {
   ...
 }
                                   </code></pre>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li>It's called Heap, but it's a priority queue (naming things!)</li>
+                                      <li>The internal data structure is based on binormal heaps, thus the name</li>
+                                      <li>Constant time inserts (that's cool!)</li>
+                                      <li>Constant time access to the minimum value</li>
+                                      <li>O(log n) removal of minimum value</li>
+                                      <li>Warning: Currently not stack safe. There's a PR that addresses this</li>
+                                    </ol>
+                                  </aside>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <pre><code>
 case class Employee(id: Int, firstName: String, lastName: String,
@@ -244,6 +328,9 @@ implicit val nameOrder = new Order[Employee] {
 }
                                   </code></pre>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <pre><code style="width: 957px">
 val fmt = DateTimeFormat.forPattern("MM/DD/YYY")
@@ -259,6 +346,9 @@ employeesByName.toList.mkString("\n")
 // Employee(3,Bill,Smith,19,1990-01-01T00:00:00.000-06:00)
                                   </code></pre>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <pre><code style="width: 957px">
 implicit val hireDateOrder = new Order[Employee] {
@@ -274,6 +364,9 @@ employeesByHireDate.toList.mkString("\n")
 //Employee(1,John,Doe,20,2014-01-01T00:00:00.000-06:00)
                                   </code></pre>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <!-- <div style="text-align: left;"><p>Finding implicits...</p></div> -->
                                   <h3 style="text-align: left;"><strong>Finding implicits...</strong></h3>
@@ -297,8 +390,11 @@ employeesByHireDate.toList.mkString("\n")
                                   </ol>
                                   <p><small>http://docs.scala-lang.org/tutorials/FAQ/finding-implicits.html</small></p>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
 				<section>
-                                  <strong><p>A digression:  The <em>Type Class</em> pattern</p></strong>
+                                  <strong><p>A digression:  The <em>Typeclass</em> pattern</p></strong>
                                   <p>Starts with a trait or abstract class</p>
                                   <pre><code class="scala">
 trait Plusser[A] {
@@ -306,8 +402,11 @@ trait Plusser[A] {
 }
                                   </code></pre>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
-                                  <p>Instances of the type class in implicit scope</p>
+                                  <p>Instances of the typeclass in implicit scope</p>
                                   <pre><code class="scala" style="width: 957px">
 object Plusser {
   implicit val IntPlusser = new Plusser[Int] {
@@ -320,6 +419,9 @@ object Plusser {
 }
                                   </code></pre>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <p>Implicit conversions to an ops/syntax instance</p>
                                   <pre><code class="scala" style="width: 957px">
@@ -332,14 +434,20 @@ object Plusser {
 }
                                   </code></pre>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
-                                  <p>An <em>Ops</em> class to <em>add</em> methods to classes with type class instances</p>
+                                  <p>An <em>Ops</em> class to <em>add</em> methods to classes with typeclass instances</p>
                                   <pre><code class="scala">
 class PlusserOps[A](val self: A)(implicit val P: Plusser[A]) {
   def plus(y: A) = P.plus(self, y)
 }
                                   </code></pre>
 				</section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <p>Usage</p>
                                   <pre><code class="scala" style="width: 957px">
@@ -350,8 +458,10 @@ def listUse[A](a: List[A], b: List[A]) = a plus b
                                   </code></pre>
                                 </section>
 
+                                <!-- =================================================================================== -->
+
                                 <section>
-                                  <p>The ScalaZ <em>Functor</em> type class</p>
+                                  <p>The ScalaZ <em>Functor</em> typeclass</p>
                                   <pre><code class="scala">
 trait Functor[F[_]] extends InvariantFunctor[F] { self =>
   def map[A, B](fa: F[A])(f: A => B): F[B]
@@ -368,8 +478,11 @@ trait ListInstances extends ListInstances0 {
                                   <p><small><em>Functor provides map()</em></small></p>
                                   <p><small><em>Plus some laws</em></small></p>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
-                                  <p>The ScalaZ <em>Applicative Functor</em> type class</p>
+                                  <p>The ScalaZ <em>Applicative Functor</em> typeclass</p>
                                   <pre><code class="scala">
 trait Apply[F[_]] extends Functor[F] { self =>
   def ap[A,B](fa: => F[A])(f: => F[A => B]): F[B]
@@ -405,8 +518,11 @@ val f3 = (f1 |@| f2)(Something.apply) // Future[Something]
                                   </code></pre>
                                   <p><small><em>ApplicativeBuilder provides syntax that makes it easier to use Applicative</em></small></p>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
-                                  <p>The Scalaz <em>Monad</em> type class</p>
+                                  <p>The Scalaz <em>Monad</em> typeclass</p>
                                   <pre><code class="scala">
 trait Monad[F[_]] extends Applicative[F] with Bind[F] { self =>
   //Note: Scalaz identifies Monad.return with Applicative.point
@@ -420,9 +536,15 @@ trait Bind[F[_]] extends Apply[F] { self =>
                                   <p><small><em>Monad adds bind() to Applicative</em></small></p>
                                   <p><small><em>Plus some laws</em></small></p>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <p>Getting back to the real world...</p>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <p><em>Disjunction</em> a.k.a. <em>Either</em></p>
                                   <p><small>(or just make a V with your hands)</small></p>
@@ -443,6 +565,9 @@ final case class \/-[+B](b: B) extends (Nothing \/ B) // Right
                                   <!-- <pre><code class="scala"> -->
                                   <!-- </code></pre> -->
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <p>Some examples</p>
                                   <pre><code class="scala">
@@ -454,6 +579,9 @@ val anotherLeft = "Bang!".left       // String \/ Nothing
                                   <p>\/ instances are either a left of A or a right of B.</p>
                                   <p>By convention a right is used for good values and left is used for errors.</p>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <p>Right bias</p>
                                   <pre><code class="scala">
@@ -464,6 +592,9 @@ aLeft map (_ + 2)       // -\/("Something BAD happened")
 aLeft filter(_%2 == 0)  // -\/("Something BAD happened")
                                   </code></pre>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <p>Disjunction is a <em>Monad</em></p>
                                   <!-- <pre><code class="scala" style="width: 915px"> -->
@@ -490,6 +621,9 @@ def safeDiv4(a: Int, b: Int, c: Int, d: Int): Throwable \/ Int =
                                   or the first Left returned from a safeDiv().</p>
                                   </small>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <p>Pattern matching</p>
                                   <pre><code class="scala">
@@ -499,6 +633,9 @@ safeDiv(4, 2) match {
 }
                                   </code></pre>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <p><em>Validation</em>&ndash;Accumlate errors</p>
                                   <pre><code class="scala">
@@ -513,8 +650,11 @@ sealed abstract class Validation[+E, +A] {
 final case class Success[A](a: A) extends Validation[Nothing, A]
 final case class Failure[E](e: E) extends Validation[E, Nothing]
                                   </code></pre>
-                                  <p><small>A <em>Semigroup</em> is a type class with a single method, <em>append</em></small></p>
+                                  <p><small>A <em>Semigroup</em> is a typeclass with a single method, <em>append</em></small></p>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <p></p>
                                   <pre><code class="scala" style="width: 950px">
@@ -540,6 +680,9 @@ def validateNonNegativeInteger(field: String,
                                   </p>
                                   </small>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <p></p>
                                   <pre><code class="scala">
@@ -551,6 +694,9 @@ def makePerson(firstName: String, lastName: String,
   )(Person.apply)
                                   </code></pre>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <p></p>
                                   <!-- <pre><code class="scala" style="width: 950px"> -->
@@ -571,15 +717,21 @@ makePerson("", "", "-42")
 //                      "Age cannot be negative."))
                                   </code></pre>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <h3>Recap &ndash; What have we seen so far</h3>
                                   <ul>
                                     <li>Some useful functional (immutable) data structures</li>
-                                    <li>The <em>Type Class</em> pattern</li>
+                                    <li>The <em>Typeclass</em> pattern</li>
                                     <li>Scala type signatures and parametricity</li>
                                     <li>Some ScalaZ code</li>
                                   </ul>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <h3>What's it all for?</h3>
                                   <img class="fragment" src="xkcd-functional.png">
@@ -588,6 +740,8 @@ makePerson("", "", "-42")
                                    and power of abstract mathematics with the intuitive clarity of abstract mathematics.</p>
                                   </small>
                                 </section>
+
+                                <!-- =================================================================================== -->
 
                                 <section>
                                   <p>Functional error handling</p>
@@ -642,31 +796,7 @@ for {
 				  </aside>
                                 </section>
 
-<!--                                 <section> -->
-<!--                                   <p>Functional error handling</p> -->
-<!--                                   <div id="wrapper"> -->
-<!--                                     <div id="column-1"> -->
-<!--                                       <pre><code class="scala" style="width: 470px"> -->
-<!-- def getDBConnection(): Throwable \/ Conn -->
-<!-- for { -->
-<!--   c <- getDBConnection() -->
-<!--   u <- getUserForName(c, name) -->
-<!--   o <- getOrdersForUser(c, u) -->
-<!-- } yield o -->
-<!--                                      </code></pre> -->
-<!--                                   </div> -->
-<!--                                   <div id="column-2"> -->
-<!--                                   <pre><code class="scala"> -->
-<!-- (int <~ whiteSpace -->
-<!--   |@| stringOf(letter) <~ whiteSpace -->
-<!--   |@| stringOf(letter) <~ whiteSpace -->
-<!-- )(Person.apply) -->
-<!--                                   </code></pre> -->
-<!--                                   </div> -->
-<!--                                   </div> -->
-<!--                                   <\!-- <div><p>ABC</p></div> -\-> -->
-<!--                                   <\!-- <div><p>DEF</p></div> -\-> -->
-<!--                                 </section> -->
+                                <!-- =================================================================================== -->
 
 
 

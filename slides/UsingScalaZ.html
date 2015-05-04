@@ -462,6 +462,7 @@ def listUse[A](a: List[A], b: List[A]) = a plus b
 
                                 <section>
                                   <p>The ScalaZ <em>Functor</em> typeclass</p>
+                                  <p><small><em>Functor provides map()</em></small></p>
                                   <pre><code class="scala">
 trait Functor[F[_]] extends InvariantFunctor[F] { self =>
   def map[A, B](fa: F[A])(f: A => B): F[B]
@@ -475,7 +476,6 @@ trait ListInstances extends ListInstances0 {
     ...
 }
                                   </code></pre>
-                                  <p><small><em>Functor provides map()</em></small></p>
                                   <p><small><em>Plus some laws</em></small></p>
                                 </section>
 
@@ -483,6 +483,7 @@ trait ListInstances extends ListInstances0 {
 
                                 <section>
                                   <p>The ScalaZ <em>Applicative Functor</em> typeclass</p>
+                                  <p><small><em>Applicative adds ap() and point() to Functor</em></small></p>
                                   <pre><code class="scala">
 trait Apply[F[_]] extends Functor[F] { self =>
   def ap[A,B](fa: => F[A])(f: => F[A => B]): F[B]
@@ -495,18 +496,17 @@ trait Applicative[F[_]] extends Apply[F] { self =>
   ...
 }
                                   </code></pre>
-                                  <p><small><em>Applicative adds ap() and point() to Functor</em></small></p>
                                   <p><small><em>Plus some laws</em></small></p>
                                 </section>
                                 <section>
                                   <p>Applicative Builder</p>
                                   <pre><code class="scala">
-case class Something(s: String, i: Int)
 def doSomething(s: String, i: Int) = s"$s - $i"
 
 ("ABC".some |@| 1.some)(doSomething) // Some("ABC - 1")
 ("ABC".some |@| none)(doSomething)   // None
 
+case class Something(s: String, i: Int)
 val f1: Future[String] = ...
 val f2: Future[Int] = ...
 val f3 = (f1 |@| f2)(Something.apply) // Future[Something]
@@ -560,8 +560,8 @@ sealed abstract class \/[+A, +B] {
 final case class -\/[+A](a: A) extends (A \/ Nothing) // Left
 final case class \/-[+B](b: B) extends (Nothing \/ B) // Right
                                   </code></pre>
-                                  <p>A <em>right-biased</em> either.</p>
-                                  <p>Map, flatMap, filter, etc. operate on <em>right</em> values.</p>
+                                  <small><p>A <em>right-biased</em> either.</p></small>
+                                  <small><p>map, flatMap, filter, etc. operate on <em>right</em> values.</p></small>
                                   <!-- <pre><code class="scala"> -->
                                   <!-- </code></pre> -->
                                 </section>
@@ -576,8 +576,8 @@ val aLeft: \/[String, Int] = -\/("Something BAD happened!")
 val anotherRight = 42.right[String]  // String \/ Int
 val anotherLeft = "Bang!".left       // String \/ Nothing
                                   </code></pre>
-                                  <p>\/ instances are either a left of A or a right of B.</p>
-                                  <p>By convention a right is used for good values and left is used for errors.</p>
+                                  <small><p>\/ instances are either a left of A or a right of B.</p></small>
+                                  <small><p>By convention a right is used for good values and left is used for errors.</p></small>
                                 </section>
 
                                 <!-- =================================================================================== -->

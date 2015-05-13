@@ -13,5 +13,7 @@ object ApplicativeBuilderExamples {
 
   val f1 = Future.successful("abc")
   val f2 = Future.successful(1)
-  val f3 = (f1 |@| f2)(Something.apply) // Future[Something] = Success(Something("abc", 1))
+  val f3 = Future.failed(new Exception("ARGH!"))
+  val f4 = (f1 |@| f2)(Something.apply) // Future[Something] = Success(Something("abc", 1))
+  val f5 = (f1 |@| f3)(Something.apply) // Future[Something] = Failure(java.lang.Exception)
 }

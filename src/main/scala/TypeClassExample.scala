@@ -24,8 +24,8 @@ object Plusser {
   implicit def ToListPlusserOps[A](x: List[A]): PlusserOps[List[A]] = new PlusserOps[List[A]](x)
 }
 
-class PlusserOps[A](val self: A)(implicit val P: Plusser[A]) {
-  def plus(y: A) = P.plus(self, y)
+class PlusserOps[A](val x: A)(implicit val P: Plusser[A]) {
+  def plus(y: A) = P.plus(x, y)
 }
 
 object PlusserExample {

@@ -50,6 +50,22 @@
                   <!-- background-color: #777; -->
                   float: right;
                   }
+
+                  #wrapper {
+                      display: table;
+                      width: 100%;
+                      min-width: 1000px;
+                      min-height: 400px;
+                  }
+                  #column-1 {
+                      display: table-cell;
+                      /* background: #DDF; */
+                      width: 150px;
+                  }
+                  #column-2 {
+                      display: table-cell;
+                      /* background: #EEE; */
+                  }
                 </style>
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
@@ -62,86 +78,163 @@
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
+
+                                <!-- =================================================================================== -->
+
 				<section>
 					<h2>Actually Using ScalaZ</h2>
-					<em><h5>An Introduction for the Rest of Us</h5></em>
-					<p>
-						<small>Marc Saegesser / <a href="http://twitter.com/marcsaegesser">@marcsaegesser</a></small>
-					</p>
+					<!-- <em><h5>An Introduction to Funcational Programming with ScalaZ</h5></em> -->
+                                        <br/>
+                                        <br/>
+                                        <p><small>Marc Saegesser<br>
+                                            AMI Entertainment Network, inc.<br>
+                                            marc@saegesser.org / <a href="http://twitter.com/marcsaegesser">@marcsaegesser</a></small></p>
+                                        <!-- <p><small>Marc Saegesser (<a href="http://twitter.com/marcsaegesser">@marcsaegesser)</a><br> -->
+                                        <!--     AMI Entertainment Network, inc.</small></p> -->
+					<!-- <p><small>Marc Saegesser (<a href="http://twitter.com/marcsaegesser">@marcsaegesser)</a></small></p> -->
+					<!-- <p><small>AMI Entertainment Network, inc.</small></p> -->
+				  <aside class="notes">
+                                    <!-- <small> -->
+                                      <ol>
+                                        <li>ScalaZ is a library for doing pure functional programming in Scala</li>
+                                        <li>Over the last couple years I found uses for several ScalaZ classes in my production code
+                                          <ol>
+                                            <li>Sometimes I went looking for a data structure and found it in ScalaZ</li>
+                                            <li>Other times a library I was using returned values from ScalaZ</li>
+                                          </ol>
+                                        </li>
+                                        <li>When I talked about that with other Scala programmers I often got strange looks
+                                          <ol>
+                                            <li>Isn't that hard?</li>
+                                            <li>I looked at that once and couldn't understand it</li>
+                                            <li>I can't do that. It's like programming with math!</li>
+                                          </ol>
+                                        </li>
+                                        <li>Actually, they have a point</li>
+                                      </ol>
+                                    <!-- </small> -->
+                                  </aside>
 				</section>
+
+                                <!-- =================================================================================== -->
 
                                 <section>
                                   <h2>Why the Bad Rep?</h2>
                                   <div style="text-align: left;">
                                     <ul>
-                                      <li>Unfamiliar - <em style="color:#A9A9A9;">The functional style is new to many developers</em></li>
-                                      <li>Large - <em style="color:#A9A9A9;">Many classes, many unrelated to each other</em></li>
-                                      <li>Arcane - <em style="color:#A9A9A9;">Functor, Applicative, Monad. Oh, my!</em></li>
-                                      <li>Abstract - <em style="color:#A9A9A9;">Genericity is powerful, but not obvious</em></li>
-                                      <li>Documentation - <em style="color:#A9A9A9;">Yeah, it's that bad</em></li>
+                                      <li class="fragment">Unfamiliar - <em style="color:#A9A9A9;">The functional style is new to many developers</em></li>
+                                      <li class="fragment">Large - <em style="color:#A9A9A9;">Many classes, many unrelated to each other</em></li>
+                                      <li class="fragment">Arcane - <em style="color:#A9A9A9;">Functor, Applicative, Monad. Oh, my!</em></li>
+                                      <li class="fragment">Abstract - <em style="color:#A9A9A9;">Genericity is powerful, but not obvious</em></li>
+                                      <li class="fragment">Documentation - <em style="color:#A9A9A9;">Mostly missing</em></li>
                                     </ul>
                                   </div>
+				  <aside class="notes">
+                                    <small>
+                                      <ol>
+                                        <li>FP <em>is</em> different. It isn't hard; it's just unfamiliar</li>
+                                        <li>ScalaZ is a huge library
+                                          <ol>
+                                            <li>Looking at the ScalaDoc you don't know where to start</li>
+                                            <li>It's a library for general purpose computing not for a particular target.
+                                              You can pick up an unfamiliar JSON parsing library and figure it out. The same cannot be
+                                              said for ScalaZ</li>
+                                          </ol>
+                                        </li>
+                                        <li>ScalaZ wears math on its sleeve. Haskell envy is a thing. This is just a fact of life. You will need to learn some new words.</li>
+                                        <li>Types and parametricity are sometimes better than documentation.</li>
+                                        <li>Plan
+                                          <ol>
+                                            <li>Examples of useful ScalaZ data structures. Provides a starting point getting started.</li>
+                                            <li>A quick overview of things needed to get around in the ScalaZ code</li>
+                                            <li>Cover language you'll need</li>
+                                          </ol>
+                                        </li>
+                                      </ol>
+                                    </small>
+                                  </aside>
                                 </section>
 
-                                <section>
-                                  <h2>Topics</h2>
-                                  <div style="text-align: left;">
-                                    <ul>
-                                      <li>Zipper - <em style="color:#A9A9A9;">A list with a cursor</em></li>
-                                      <li>Heap - <em style="color:#A9A9A9;">A priority queue</em></li>
-                                      <li>Type Classes - <em style="color:#A9A9A9;">Ad Hoc polymorphism (ooh)</em></li>
-                                      <li>Disjunction - <em style="color:#A9A9A9;">A taste of Monads</em></li>
-                                      <li>Validation - <em style="color:#A9A9A9;">An applicative functor</em></li>
-                                      <li>Wrap up - <em style="color:#A9A9A9;">What's the point?</em></li>
-                                    </ul>
-                                  </div>
-                                </section>
+                                <!-- =================================================================================== -->
+
+                                <!-- <section> -->
+                                <!--   <h2>Topics</h2> -->
+                                <!--   <div style="text-align: left;"> -->
+                                <!--     <ul> -->
+                                <!--       <li>Zipper - <em style="color:#A9A9A9;">A list with a cursor</em></li> -->
+                                <!--       <li>Heap - <em style="color:#A9A9A9;">A priority queue</em></li> -->
+                                <!--       <li>Typeclasses - <em style="color:#A9A9A9;">Ad Hoc polymorphism (ooh)</em></li> -->
+                                <!--       <li>ScalaZ Typeclasses - <em style="color:#A9A9A9;">Warning: some math words</em></li> -->
+                                <!--       <li>Disjunction - <em style="color:#A9A9A9;">A taste of Monads</em></li> -->
+                                <!--       <li>Validation - <em style="color:#A9A9A9;">An applicative functor</em></li> -->
+                                <!--       <li>Wrap up - <em style="color:#A9A9A9;">What's the point?</em></li> -->
+                                <!--     </ol> -->
+                                <!--   </div> -->
+                                <!--   <aside class="notes"> -->
+                                <!--     <\!-- <small> -\-> -->
+                                <!--       <ol> -->
+                                <!--         <li>Start with Zipper and Heap; two useful functional data structures that you can use without -->
+                                <!--           going all category theory</li> -->
+                                <!--         <li>To really use ScalaZ you'll need to be able to read the type signatures and some code. -->
+                                <!--           <ol> -->
+                                <!--             <li>ScalaZ is based on the typeclass pattern plus it's very useful in its own right</li> -->
+                                <!--             <li>Followed by a whirlwind tour the basic ScalaZ typeclass. Warning, there will be strange words</li> -->
+                                <!--           </ol> -->
+                                <!--         </li> -->
+                                <!--         <li>Back to the real world. Disjunction (Either) and Validation, the supposed gateway drugs to ScalaZ</li> -->
+                                <!--         <li>Wrap it up with a nice bow.</li> -->
+                                <!--       </ol> -->
+                                <!--     <\!-- </small> -\-> -->
+                                <!--   </aside> -->
+                                <!-- </section> -->
+
+                                <!-- =================================================================================== -->
 
                                 <section>
-                                  <h2>Zipper</h2>
-                                  <ul>
-                                    <li>A non-empty list with a focus
-                                      <ul>
-                                        <li>All operations happen at the focus</li>
-                                        <li>Read, modify or delete the item at the focus</li>
-                                        <li>Move the focus to the left or right (potentially wrapping at the ends)</li>
-                                        <li>Add a new item to the left or right of the focus</li>
-                                        <li>All operations are O(1) except for wrapping from end to end which is O(n)</li>
-                                      </ul>
-                                    </li>
-                                  </ul>
-                                </section>
-
-                                <section>
-                                  <blockquote cite="https://www.st.cs.uni-saarland.de/edu/seminare/2005/advanced-fp/docs/huet-zipper.pdf">
-                                    &ldquo;Going up
-                                    and down in the structure is analogous to closing and opening a zipper in a piece
-                                    of clothing, whence the name.&rdquo;<br>
-                                    &mdash; GERARD HUET
-                                  </blockquote>
-                                  <p><small>https://www.st.cs.uni-saarland.de/edu/seminare/2005/advanced-fp/docs/huet-zipper.pdf</small></p>
-                                </section>
-
-                                <section>
-				  <!-- <pre><code class="scala" data-trim contenteditable> -->
-					<pre><code class="scala">
+                                  <p><strong>Zipper</strong> &ndash; A list with a cursor</p>
+				  <pre><code class="scala">
 final case class Zipper[+A](lefts: Stream[A],
                             focus: A,
                             rights: Stream[A]) {
-  def update[AA >: A](focus: AA): Zipper[AA] = ...
+  def update[AA &gt;: A](focus: AA): Zipper[AA] = ...
   def delete: Option[Zipper[A]] = ...
   def next: Option[Zipper[A]] = ...
   def previous: Option[Zipper[A]] = ...
-  def insertLeft[AA >: A](y: AA): Zipper[AA] = ...
-  def insertRight[AA >: A](y: AA): Zipper[AA] = ...
+  def insertLeft[AA &gt;: A](y: AA): Zipper[AA] = ...
+  def insertRight[AA &gt;: A](y: AA): Zipper[AA] = ...
   def nextC: Zipper[A] = ...
   def previousC: Zipper[A] = ...
+  ...
 }
 					</code></pre>
-                                  <p>Nil :: l3 :: l2 :: l1&nbsp;&nbsp;&nbsp;&nbsp;focus&nbsp;&nbsp;&nbsp;&nbsp;r1 :: r2 :: r3 :: Nil</p>
-
+                                  <p class="fragment">Nil :: l3 :: l2 :: l1&nbsp;&nbsp;&nbsp;&nbsp;focus&nbsp;&nbsp;&nbsp;&nbsp;r1 :: r2 :: r3 :: Nil</p>
+                                  <aside class="notes">
+                                    <small>
+                                      <ol>
+                                        <li>Like a List but with efficient access and modification at a cursor that can be anywhere within the list</li>
+                                        <li>Non-empty. Operations that delete items or might move off the end return Options</li>
+                                        <li>More properly called a List Zipper</li>
+                                        <li>All access and modification methods are O(1)</li>
+                                        <li>Only nextC/prevC are O(n) and then only when wrapping from one end to the other</li>
+                                        <li>Immutable - <em>modifications</em> return a new Zipper instance. Suitable for use in STM.</li>
+                                        <li>Visual metaphor of unzipping/zipping the data structure around the focus.
+                                          <ol>
+                                            <li>Due to Gérard Huet, 1997</li>
+                                            <li>I don't see it</li>
+                                            <li>It's a well known functional data structure and the name has stuck</li>
+                                            <li>Two hard problems in computer science: cache invalidation and naming things and off-by-one errors</li>
+                                          </ol>
+                                        </li>
+                                        <li>Discuss type signatures</li>
+                                      </ol>
+                                    </small>
+                                  </aside>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
+                                  <!-- <p><strong>Zipper</strong> &ndash; Some examples</p> -->
                                   <pre><code class="scala" style="max-height: 700px;width: 875px;">
 val ints: Option[Zipper[Int]] = List(1, 2, 3, 4, 5).toZipper
 
@@ -154,54 +247,60 @@ val numberLine: Zipper[Int] = Zipper(Stream.from(-1, -1),
                                      0,
                                      Stream.from(1))
                                   </code></pre>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li>Examples
+                                        <ol>
+                                          <li>The toZipper method creates Zipper from other data types. We'll talk about how toZipper was added to List a little later.</li>
+                                          <li>Note that List.toZipper returns an Option because Lists can be empty but Zippers can't</li>
+                                          <li>NonEmptyList is a ScalaZ list type that can't be empty. NonEmptyList.toZipper doesn't need to be optional.</li>
+                                          <li>Zipper is actually based on Streams (lazy lists) so a Zipper can be infinite.</li>
+                                          <li>Mention that XMonad uses a Zipper to keep track of windows and workspaces</li>
+                                        </ol>
+                                      </li>
+                                    </ol>
+                                  </aside>
                                 </section>
-                                <section>
-                                  <pre><code class="scala" style="max-height: none;">
-object AdSlotZipper {
-  trait Slot
-  case class ClassSlot(className: String) extends Slot
-  case class GroupSlot(groupNumber: Int) extends Slot
 
-  val slots = Ref(Option.empty[Zipper[Slot]])
+                                <!-- =================================================================================== -->
 
-  def setSlots(ss: List[Slot]) = slots.single() = ss.toZipper
-
-  def addSlot(s: Slot) =
-    slots.single.transform {
-      _.map (_.insert(s))
-       .orElse (Zipper(Stream(), s, Stream()).some) }
-
-  def nextSlot(): Option[Slot] = {
-    val ss = slots.single.getAndTransform { _.map(_.nextC) }
-    ss.map (_.focus)
-  }
-}
-                                  </code></pre>
-                                </section>
                                 <section>
                                   <p>Psst.</p>
                                   <p>Zipper is a <em>comonad</em>, the categorical dual of a <em>monad</em>.</p>
                                   <p>You're programming with math!</p>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
-                                  <h2>Heap</h2>
-                                  <ul>
-                                    <li>Heap is a priority queue</li>
-                                    <li>Elements are ordered in increasing order</li>
-                                    <li>Uses scalaz.Order to define the order</li
-                                  </ul>
-                                </section>
-                                <section>
+                                  <p>Heap&nbsp;&ndash;&nbspA priority queue</p>
                                   <pre><code class="scala">
 sealed abstract class Heap[A] {
-  def insert(a: A)(implicit o: Order[A]) = ...
-  def uncons: Option[(A, Heap[A])] = ...
-  def minimum: A = ...
-  def minimumO: Option[A] = ...
-  def deleteMin: Heap[A] = ...
+  def insert(a: A)(implicit o: Order[A]): Heap[A] = ... // O(1)
+  def uncons: Option[(A, Heap[A])] = ...                // O(log n)
+  def minimum: A = ...                                  // O(1)
+  def minimumO: Option[A] = ...                         // O(1)
+  def deleteMin: Heap[A] = ...                          // O(log n)
+  ...
 }
                                   </code></pre>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li>It's called Heap, but it's a priority queue (naming things!)</li>
+                                      <li>The internal data structure is based on binomial heaps, thus the name</li>
+                                      <li>Constant time access to the minimum value</li>
+                                      <li>Constant time inserts (that's cool!)</li>
+                                      <li>O(log n) removal of minimum value</li>
+                                      <li>Heap can be empty. There's a singleton Heap.Empty value</li>
+                                      <li>Point out implicit Order</li>
+                                      <li>Differs from std lib PriorityQueue by being immutable and thus suitable for use with STM</li>
+                                      <li>Warning: Currently not stack safe. There's a PR that addresses this</li>
+                                    </ol>
+                                  </aside>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <pre><code>
 case class Employee(id: Int, firstName: String, lastName: String,
@@ -211,15 +310,27 @@ implicit val nameOrder = new Order[Employee] {
   import Ordering._
 
   def order(x: Employee, y: Employee) = {
-    if(x.lastName < y.lastName) LT
-    else if(x.lastName > y.lastName) GT
-    else if(x.firstName < y.firstName) LT
-    else if(x.firstName > y.firstName) GT
+    if(x.lastName &lt; y.lastName) LT
+    else if(x.lastName &gt; y.lastName) GT
+    else if(x.firstName &lt; y.firstName) LT
+    else if(x.firstName &gt; y.firstName) GT
     else EQ
   }
 }
                                   </code></pre>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li>ScalaZ Order is analogous to StdLib Ordering (naming things!)</li>
+                                      <li>ScalaZ Ordering provides symbollic names for the traditional -1, 0, 1 comparison results</li>
+                                      <li>This example shows a way to create a brand new Order that creates an ordering based on
+                                        two fields in a data structure. In this case lastName/firstName.</li>
+                                      <li>If this Order is available in implicit scope then Heap will use it to sort the priority queue</li>
+                                    </ol>
+                                  </aside>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
                                   <pre><code style="width: 957px">
 val fmt = DateTimeFormat.forPattern("MM/DD/YYY")
@@ -227,16 +338,26 @@ val emp1 = Employee(1, "John", "Doe", 20, DateTime.parse("1/1/2014", fmt))
 val emp2 = Employee(2, "Jane", "Doe", 50, DateTime.parse("2/2/2001", fmt))
 val emp3 = Employee(3, "Bill", "Smith", 19, DateTime.parse("3/1/1990", fmt))
 
-val employeesByName = Heap.fromData(List(emp3, emp2, emp1))
+val employeesByName = Heap.fromData(List(emp1, emp2, emp3))
 
 employeesByName.toList.mkString("\n")
 // Employee(2,Jane,Doe,50,2001-01-02T00:00:00.000-06:00)
 // Employee(1,John,Doe,20,2014-01-01T00:00:00.000-06:00)
 // Employee(3,Bill,Smith,19,1990-01-01T00:00:00.000-06:00)
                                   </code></pre>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li>An example using the lastName/firstName order</li>
+                                      <li>Note that Heap.fromData() imports data from a List into to priority queue</li>
+                                      <li>Heap.toList() will return a sorted List. This probably isn't the normal usage but it's useful for this example</li>
+                                    </ol>
+                                  </aside>
                                 </section>
+
+                                <!-- =================================================================================== -->
+
                                 <section>
-                                  <pre><code style="width: 957px">
+                                  <pre><code>
 implicit val hireDateOrder = new Order[Employee] {
   def order(x: Employee, y: Employee) =
     Ordering.fromInt(x.hireDate compareTo y.hireDate)
@@ -249,355 +370,726 @@ employeesByHireDate.toList.mkString("\n")
 //Employee(2,Jane,Doe,50,2001-01-02T00:00:00.000-06:00)
 //Employee(1,John,Doe,20,2014-01-01T00:00:00.000-06:00)
                                   </code></pre>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li>This example creates an Order based on a pre-existing compareTo() function.</li>
+                                      <li>Ordering.fromInt() converts the standard -1,0,1 compare results into a ScalaZ Ordering</li>
+                                    </ol>
+                                  </aside>
+                                </section>
+
+                                <!-- =================================================================================== -->
+
+                                <!-- <section> -->
+                                <!--   <\!-- <div style="text-align: left;"><p>Finding implicits...</p></div> -\-> -->
+                                <!--   <h3 style="text-align: left;"><strong>Finding implicits...</strong></h3> -->
+                                <!--   <ol> -->
+                                <!--     <li>First look in current scope -->
+                                <!--       <ul> -->
+                                <!--         <li>Implicits defined in current scope</li> -->
+                                <!--         <li>Explicit imports</li> -->
+                                <!--         <li>wildcard imports</li> -->
+                                <!--       </ul> -->
+                                <!--     </li> -->
+                                <!--     <li>Now look at associated types in -->
+                                <!--       <ul> -->
+                                <!--         <li>Companion objects of a type</li> -->
+                                <!--         <li>Implicit scope of an argument’s type (>= 2.9.1)</li> -->
+                                <!--         <li>Implicit scope of type arguments (>= 2.8.0)</li> -->
+                                <!--         <li>Outer objects for nested types</li> -->
+                                <!--         <li>Other dimensions</li> -->
+                                <!--       </ul> -->
+                                <!--     </li> -->
+                                <!--   </ol> -->
+                                <!--   <p><small>http://docs.scala-lang.org/tutorials/FAQ/finding-implicits.html</small></p> -->
+                                <!-- </section> -->
+
+                                <!-- =================================================================================== -->
+
+				<section>
+                                  <strong><p>A digression:  The <em>Typeclass</em> pattern</p></strong>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li>ScalaZ is built on the typeclass pattern</li>
+                                      <li>Need to understand the typeclass pattern in order to make sense of the ScalaZ code</li>
+                                      <li>Not necessary to use ScalaZ, but it's a good thing to understand anyway</li>
+                                      <li>Typeclasses originated in Haskell but they are a natual part of Scala. In fact they are used in the StdLib</li>
+                                      <li>They provide a way of implementing <em>ad hoc</em> polymorphism which allows a kind of function overloading based on the type of parameters passed to a function.</li>
+                                      <li>One benefit is that we can add polymorphic methods to sealed classed we don't have source code for</li>
+                                    </ol>
+                                  </aside>
+                                </section>
+
+                                <!-- =================================================================================== -->
+
+				<section>
+                                  <p>Start with a trait or abstract class</p>
+                                  <pre><code class="scala">
+trait Plusser[A] {
+  def plus(x: A, y: A): A
+}
+                                  </code></pre>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li>This defines the <em>interface</em> of the typeclass.</li>
+                                      <li>In OOP we'd use this trait by extending and implementing the plus() method.</li>
+                                      <li>That's not how it works with typeclasses, though</li>
+                                    </ol>
+                                  </aside>
+                                </section>
+
+                                <!-- =================================================================================== -->
+
+                                <section>
+                                  <p>Create instances of the typeclass in implicit scope</p>
+                                  <!-- <pre><code class="scala" style="width: 957px"> -->
+                                  <pre><code class="scala">
+object Plusser {
+  implicit val IntPlusser = new Plusser[Int] {
+    def plus(x: Int, y: Int): Int = x + y
+  }
+  implicit def ListPlusser[B] = new Plusser[List[B]] {
+    def plus(x: List[B], y: List[B]): List[B] = x ++ y
+  }
+  ...
+}
+                                  </code></pre>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li>This shows two typeclass <em>instances</em>; one for Int and one for List</li>
+                                      <li>Unlike subtype polymorphism, the typeclass trait isn't extended directly by the
+                                        classes that will use it (e.g. Int, List).</li>
+                                      <li>Rather, we create instances of the type class <em>along side</em>
+                                        normal classes. The typeclass instances implement the typeclass interface for these existing classes</li>
+                                      <li>These type class instances are in implicit scope so they can be retrieved automatically at compile time</li>
+                                      <li>Note that IntPlusser is a val while ListPlusser is a def. A val can't have type parameters so creating
+                                        a ListPlusser instance requires a function call. Each usage of ListPlusser calls ListPlusser
+                                        and creates a new instances. This may cause excessive garbage creation.</li>
+                                    </ol>
+                                  </aside>
+                                </section>
+
+                                <!-- =================================================================================== -->
+
+                                <section>
+                                  <pre><code class="scala" style="width: 880px">
+import Plusser._
+
+val PI = implicitly[Plusser[Int]]
+PI.plus(1, 2)
+// 3
+
+val PL = implicitly[Plusser[List[Int]]]
+PL.plus(List(1, 2), List(3))
+// List(1, 2, 3)
+
+                                  </code></pre>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li>An example of using the typeclass directly</li>
+                                      <li>Not really the normal usage pattern</li>
+                                      <li>Normally passed in via implicit arguments to a function</li>
+                                    </ol>
+                                  </aside>
+                                </section>
+
+                                <!-- =================================================================================== -->
+
+                                <section>
+                                  <p>Define an Ops (Syntax) class and implicit conversion to it</p>
+                                  <pre><code class="scala" style="width: 880px">
+class PlusserOps[A](val x: A)(implicit val P: Plusser[A]) {
+  def plus(y: A) = P.plus(x, y)
+}
+                                  </code></pre>
+                                  <pre><code class="scala" style="width: 880px">
+object Plusser {
+  ...
+  implicit def ToIntPlusserOps(x: Int): PlusserOps[Int] =
+    new PlusserOps[Int](x)
+  implicit def ToListPlusserOps[A](x: List[A]): PlusserOps[List[A]] =
+    new PlusserOps[List[A]](x)
+}
+                                  </code></pre>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li>PlusserOps says that given some instance of our typeclass for a particular type (and value of that type)
+                                        we can turn the binary <em>plus</em> method into a unary version with the value automatically passed
+                                        as the first argument</li>
+                                      <li>The implicit To*Ops classes allows us to apparently <em>add</em> methods to classes that implement our typeclass</li>
+                                    </ol>
+                                  </aside>
+                                </section>
+
+                                <!-- =================================================================================== -->
+
+                                <section>
+                                  <p>Usage</p>
+                                  <!-- <pre><code class="scala" style="width: 957px"> -->
+                                  <pre><code class="scala">
+import Plusser._
+
+def intExample(a: Int, b: Int) = a plus b
+def listExample[A](a: List[A], b: List[A]) = a plus b
+                                  </code></pre>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li>The <em>plus</em> function is overloaded. It executes different code depending on the
+                                        types of its arguments.</li>
+                                      <li>We successfully <em>extended</em> the List class with a <em>plus</em> operation even
+                                        though List is a sealed class.</li>
+                                      <li>Subtype polymorphism &ndash; Inheiritance</li>
+                                      <li>Parametric polymorphism &ndash; Generics (Scala type parameters)</li>
+                                      <li>It's <em>ad hoc</em> because it's not part of the language's type system</li>
+                                      <li>Ad hoc polymorphism &ndash; Polymorphism alongside (separate) from the types</li>
+                                    </ol>
+                                  </aside>
+                                </section>
+
+                                <!-- =================================================================================== -->
+
+                                <section>
+                                  <p>Some ScalaZ typeclasses...</p>
+                                </section>
+
+                                <!-- =================================================================================== -->
+
+                                <section>
+                                  <p>The ScalaZ <em>Functor</em> typeclass</p>
+                                  <p><small><em>Functor provides map()</em></small></p>
+                                  <pre><code class="scala">
+trait Functor[F[_]] extends InvariantFunctor[F] { self =&gt;
+  def map[A, B](fa: F[A])(f: A =&gt; B): F[B]
+  ...
+}
+                                  </code></pre>
+                                  <pre class="fragment"><code class="scala">
+trait ListInstances extends ListInstances0 {
+  implicit val listInstance = new ... with MonadPlus[List] ... {
+    override def map[A, B](l: List[A])(f: A =&gt; B) = l map f
+    ...
+}
+                                  </code></pre>
+                                  <p class="fragment"><small><em>Plus some laws</em></small></p>
+                                    <aside class="notes">
+                                      <small>
+                                        <ol>
+                                          <li><em>Functor</em> provides <em>map</em></li>
+                                          <li>F[_] is a higher-kinded type. It represents a type that takes one
+                                            type parameter
+                                            <ol>
+                                              <li>Examples are List, Option, Future, but not \/, which takes two type parameters</li>
+                                              <li>The inner type parameter can be anything</li>
+                                              <li>Parametricity
+                                                <ol>
+                                                  <li>Types A and B are universally quantifed.</li>
+                                                  <li>This actually puts a considerable constraints on the implementer of map</li>
+                                                  <li>The implementation has to work for <strong>all</strong> types</li>
+                                                  <li>The implementer has no knowledge about A or B</li>
+                                                  <li>All they can do is pass A to f and return the resulting B</li>
+                                                  <li>With the caveat that since we're running on the JVM there's nothing to
+                                                    prevent them from using casts or using reflection to find your "Launch the missles"
+                                                    method</li>
+                                                </ol>
+                                              </li>
+                                            </ol>
+                                          </li>
+                                        </ol>
+                                      </small>
+                                    </aside>
+                                </section>
+
+                                <!-- =================================================================================== -->
+
+                                <section>
+                                  <p>The ScalaZ <em>Applicative Functor</em> typeclass</p>
+                                  <p><small><em>Applicative adds ap() and point() to Functor</em></small></p>
+                                  <pre><code class="scala">
+trait Apply[F[_]] extends Functor[F] { self =&gt;
+  def ap[A,B](fa: =&gt; F[A])(f: =&gt; F[A =&gt; B]): F[B]
+  ...
+}
+                                  </code></pre>
+                                  <pre><code class="scala">
+trait Applicative[F[_]] extends Apply[F] { self =&gt;
+  def point[A](a: =&gt; A): F[A]
+  ...
+}
+                                  </code></pre>
+                                  <p><small><em>Plus some laws</em></small></p>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li><em>Applicative Functor</em> provides two methods: ap() and point()</li>
+                                      <li>Applicative Functor provides functionality similar to Functor.map() but for
+                                        functions with more tahn one argument</li>
+                                      <li>In Haskell you'll see pure() and &lt;*&gt;</li>
+                                      <li>Using Applicative Functor directly in Scala is rather cumbersome so ScalaZ provides
+                                        the ApplicativeBuilder syntax</li>
+                                    </ol>
+                                  </aside>
                                 </section>
                                 <section>
-                                  <!-- <div style="text-align: left;"><p>Finding implicits...</p></div> -->
-                                  <h3 style="text-align: left;"><strong>Finding implicits...</strong></h3>
-                                  <ol>
-                                    <li>First look in current scope
-                                      <ul>
-                                        <li>Implicits defined in current scope</li>
-                                        <li>Explicit imports</li>
-                                        <li>wildcard imports</li>
-                                      </ul>
-                                    </li>
-                                    <li>Now look at associated types in
-                                      <ul>
-                                        <li>Companion objects of a type</li>
-                                        <li>Implicit scope of an argument’s type (>= 2.9.1)</li>
-                                        <li>Implicit scope of type arguments (>= 2.8.0)</li>
-                                        <li>Outer objects for nested types</li>
-                                        <li>Other dimensions</li>
-                                      </ul>
-                                    </li>
-                                  </ol>
-                                  <p><small>http://docs.scala-lang.org/tutorials/FAQ/finding-implicits.html</small></p>
+                                  <p>Applicative Builder</p>
+                                  <pre><code class="scala" style="max-height: 600px">
+def doSomething(s: String, i: Int) = s"$s - $i"
+("ABC".some |@| 1.some)(doSomething) // Some("ABC - 1")
+("ABC".some |@| none)(doSomething)   // None
+
+case class Something(s: String, i: Int)
+val f1: Future[String] = ...
+val f2: Future[Int] = ...
+val f3 = (f1 |@| f2)(Something.apply) // Future[Something]
+
+val f4: Future[Option[String]] = ...
+val f5: Future[Option[Int]] = ...
+val f6 = (f4 |@| f5)(Something.apply) // Future[Option[Something]]
+
+({println("a"); none[Int]} |@| {println("b"); none[Int]})(_+_)
+// a
+// b
+// res13: Option[Int] = None
+                                  </code></pre>
+                                  <p><small><em>ApplicativeBuilder provides syntax that makes it easier to use Applicative</em></small></p>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li>The left side combines computations that result in Functors</li>
+                                      <li>Kind of like map() but for functions that take more than one argument</li>
+                                      <li>Each computation is executed in order and may have side effects</li>
+                                      <li>All computations will run independently, they can't share results</li>
+                                      <li>The right side is a pure function (not wrapped inside a Functor)</li>
+                                      <li>Note that the function on the right doesn't know anything about the functor types</li>
+                                      <li>Applicative uses ap and map under the covers, if all the computations succeed then the
+                                        function on the right is executed with the parameters filled from the left</li>
+                                    </ol>
+                                  </aside>
                                 </section>
-				<section>
-					<h2>Hello There</h2>
-					<p>
-						reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
-					</p>
-				</section>
 
-				<!-- Example of nested vertical slides -->
-				<section>
-					<section>
-						<h2>Vertical Slides</h2>
-						<p>Slides can be nested inside of each other.</p>
-						<p>Use the <em>Space</em> key to navigate through all slides.</p>
-						<br>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section>
-						<h2>Basement Level 1</h2>
-						<p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
-					</section>
-					<section>
-						<h2>Basement Level 2</h2>
-						<p>That's it, time to go back up.</p>
-						<br>
-						<a href="#/2">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="-webkit-transform: rotate(180deg);">
-						</a>
-					</section>
-				</section>
+                                <!-- =================================================================================== -->
 
-				<section>
-					<h2>Slides</h2>
-					<p>
-						Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="http://slides.com" target="_blank">http://slides.com</a>.
-					</p>
-				</section>
+                                <section>
+                                  <p>The Scalaz <em>Monad</em> typeclass</p>
+                                  <p><small><em>Monad provies bind() and return()</em></small></p>
+                                  <pre><code class="scala">
+trait Bind[F[_]] extends Apply[F] { self =&gt;
+  def bind[A, B](fa: F[A])(f: A =&gt; F[B]): F[B]
+}
+                                  </code></pre>
+                                  <pre><code class="scala">
+trait Monad[F[_]] extends Applicative[F] with Bind[F] { self =&gt;
+  //Note: Scalaz identifies Monad.return with Applicative.point
+}
+                                  </code></pre>
+                                  <p><small><em>Plus some laws</em></small></p>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li><em>Monad</em> addes bind() and return, but ScalaZ uses Applicative.point for return</li>
+                                      <li>Monad provides a way sequence computations within a context</li>
+                                    </ol>
+                                  </aside>
+                                </section>
 
-				<section>
-					<h2>Point of View</h2>
-					<p>
-						Press <strong>ESC</strong> to enter the slide overview.
-					</p>
-					<p>
-						Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
-					</p>
-				</section>
+                                <!-- =================================================================================== -->
 
-				<section>
-					<h2>Touch Optimized</h2>
-					<p>
-						Presentations look great on touch devices, like mobile phones and tablets. Simply swipe through your slides.
-					</p>
-				</section>
+                                <section>
+                                  <p>Getting back to the real world...</p>
+                                </section>
 
-				<section data-markdown>
-					<script type="text/template">
-						## Markdown support
+                                <!-- =================================================================================== -->
 
-						Write content using inline or external Markdown.
-						Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+                                <section>
+                                  <p><em>Disjunction</em> a.k.a. <em>Either</em></p>
+                                  <p><small>(or just make a V with your hands)</small></p>
+                                  <pre><code class="scala">
+sealed abstract class \/[+A, +B] {
+  def map[D](g: B =&gt; D): (A \/ D) = ...
+  def flatMap[AA &gt;: A, D](g: B =&gt; (AA \/ D)): (AA \/ D) = ...
+  def ap[AA &gt;: A, C](f: =&gt; AA \/ (B =&gt; C)): (AA \/ C) = ...
 
-						```
-						<section data-markdown>
-						  ## Markdown support
+  ...
+}
 
-						  Write content using inline or external Markdown.
-						  Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
-						</section>
-						```
-					</script>
-				</section>
+final case class -\/[+A](a: A) extends (A \/ Nothing) // Left
+final case class \/-[+B](b: B) extends (Nothing \/ B) // Right
+                                  </code></pre>
+                                  <small><p>A <em>right-biased</em> either type: map, flatMap, filter, etc. operate on <em>right</em> values.</p></small>
+                                  <aside class="notes">
+                                    <small>
+                                      <ol>
+                                        <li>The notation is supposed to remind you of the OR (logical disjunction) symbol</li>
+                                        <li>Either is like the big brother of Option. Closely related but can do more things.
+                                          <ol>
+                                            <li>Option represents the existence or non-existence of a value</li>
+                                            <li> Either represents either value of type A or a value of type B</li>
+                                          </ol>
+                                        </li>
+                                        <li>Note the infix type notation</li>
+                                        <li>Discuss lower type bound AA >: A</li>
+                                        <li>Scala std lib has an Either but it not biased and is not a monad</li>
+                                      </ol>
+                                    </small>
+                                  </aside>
+                                </section>
 
-				<section>
-					<section id="fragments">
-						<h2>Fragments</h2>
-						<p>Hit the next arrow...</p>
-						<p class="fragment">... to step through ...</p>
-						<p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
+                                <!-- =================================================================================== -->
 
-						<aside class="notes">
-							This slide has fragments which are also stepped through in the notes window.
-						</aside>
-					</section>
-					<section>
-						<h2>Fragment Styles</h2>
-						<p>There's different types of fragments, like:</p>
-						<p class="fragment grow">grow</p>
-						<p class="fragment shrink">shrink</p>
-						<p class="fragment roll-in">roll-in</p>
-						<p class="fragment fade-out">fade-out</p>
-						<p class="fragment current-visible">current-visible</p>
-						<p class="fragment highlight-red">highlight-red</p>
-						<p class="fragment highlight-blue">highlight-blue</p>
-					</section>
-				</section>
+                                <section>
+                                  <p>Some examples</p>
+                                  <pre><code class="scala">
+val aRight: String \/ Int = \/-(42)  // Note infix type signature
+val aLeft: \/[String, Int] = -\/("Something BAD happened!")
+val anotherRight = 42.right[String]  // String \/ Int
+val anotherLeft = "Bang!".left       // String \/ Nothing
+                                  </code></pre>
+                                  <small><p>\/ instances are either a left of A or a right of B.</p></small>
+                                  <small><p>By convention a right is used for good values and left is used for errors.</p></small>
+                                  <aside class="notes">
+                                    <ol>
+                                        <li>Mnemonic: The Right is Right -- The correct value is on the right.</li>
+                                    </ol>
+                                  </aside>
+                                </section>
 
-				<section id="transitions">
-					<h2>Transition Styles</h2>
-					<p>
-						You can select from different transitions, like: <br>
-						<a href="?transition=none#/transitions">None</a> -
-						<a href="?transition=fade#/transitions">Fade</a> -
-						<a href="?transition=slide#/transitions">Slide</a> -
-						<a href="?transition=convex#/transitions">Convex</a> -
-						<a href="?transition=concave#/transitions">Concave</a> -
-						<a href="?transition=zoom#/transitions">Zoom</a>
-					</p>
-				</section>
+                                <!-- =================================================================================== -->
 
-				<section id="themes">
-					<h2>Themes</h2>
-					<p>
-						reveal.js comes with a few themes built in: <br>
-						<!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
-						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
-					</p>
-				</section>
+                                <section>
+                                  <p>Right bias</p>
+                                  <pre><code class="scala">
+42.right map (_ + 2)       // \/-(44)
+42.right filter (_%2 == 0) // \/-(42)
 
-				<section>
-					<section data-background="#dddddd">
-						<h2>Slide Backgrounds</h2>
-						<p>
-							Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
-						</p>
-						<a href="#" class="navigate-down">
-							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-						</a>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
-						<h2>Image Backgrounds</h2>
-						<pre><code>&lt;section data-background="image.png"&gt;</code></pre>
-					</section>
-					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
-						<h2>Tiled Backgrounds</h2>
-						<pre><code style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
-					</section>
-					<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
-						<div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
-							<h2>Video Backgrounds</h2>
-							<pre><code style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
-						</div>
-					</section>
-				</section>
+aLeft map (_ + 2)          // -\/("Something BAD happened")
+aLeft filter (_%2 == 0)    // -\/("Something BAD happened")
+                                  </code></pre>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li>Demonstrates the right bias</li>
+                                      <li>There are also <em>leftMap</em>, <em>leftFilter</em>, etc.</li>
+                                    </ol>
+                                  </aside>
+                                </section>
 
-				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						Different background transitions are available via the backgroundTransition option. This one's called "zoom".
-					</p>
-					<pre><code>Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
-				</section>
+                                <!-- =================================================================================== -->
 
-				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
-					<h2>Background Transitions</h2>
-					<p>
-						You can override background transitions per-slide.
-					</p>
-					<pre><code style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
-				</section>
-
-				<section>
-					<h2>Pretty Code</h2>
-					<pre><code data-trim contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
-
-    var nodes = document.querySelectorAll( selector );
-
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
-
-      if( !node.className ) {
-        node.className += ' roll';
-      }
-    }
+                                <section>
+                                  <p>Disjunction is a <em>Monad</em></p>
+                                  <pre><code class="scala">
+def safeDiv(a: Int, b: Int): Throwable \/ Int = {
+  try {
+    (a / b).right
+  } catch {
+    case NonFatal(e) => e.left
   }
 }
-					</code></pre>
-					<p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
-				</section>
 
-				<section>
-					<h2>Marvelous List</h2>
-					<ul>
-						<li>No order here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-						<li>Or here</li>
-					</ul>
-				</section>
+def safeDiv4(a: Int, b: Int, c: Int, d: Int): Throwable \/ Int =
+  for {
+    x <- safeDiv(a, b)
+    y <- safeDiv(x, c)
+    z <- safeDiv(y, d)
+  } yield z
+                                  </code></pre>
+                                  <small>
+                                  <p>The <em>for comprehension</em>
+                                    stops at the first <em>left</em> value.</p><p>The
+                                    result is either a Right containing z or the first Left returned from a safeDiv().</p>
+                                  </small>
+                                </section>
 
-				<section>
-					<h2>Fantastic Ordered List</h2>
-					<ol>
-						<li>One is smaller than...</li>
-						<li>Two is smaller than...</li>
-						<li>Three!</li>
-					</ol>
-				</section>
+                                <!-- =================================================================================== -->
 
-				<section>
-					<h2>Tabular Tables</h2>
-					<table>
-						<thead>
-							<tr>
-								<th>Item</th>
-								<th>Value</th>
-								<th>Quantity</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Apples</td>
-								<td>$1</td>
-								<td>7</td>
-							<tr>
-							<tr>
-								<td>Lemonade</td>
-								<td>$2</td>
-								<td>18</td>
-							<tr>
-							<tr>
-								<td>Bread</td>
-								<td>$3</td>
-								<td>2</td>
-							<tr>
-						</tbody>
-					</table>
-				</section>
+                                <section>
+                                  <p>Pattern matching</p>
+                                  <pre><code class="scala">
+safeDiv(4, 2) match {
+  case -\/(e) =&gt; ...
+  case \/-(v) =&gt; ...
+}
+                                  </code></pre>
+                                </section>
 
-				<section>
-					<h2>Clever Quotes</h2>
-					<p>
-						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
-					</p>
-					<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
-						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
-					</blockquote>
-				</section>
+                                <!-- =================================================================================== -->
 
-				<section>
-					<h2>Intergalactic Interconnections</h2>
-					<p>
-						You can link between slides internally,
-						<a href="#/2/3">like this</a>.
-					</p>
-				</section>
+                                <section>
+                                  <p><em>Validation</em>&ndash;Accumlate errors</p>
+                                  <pre><code class="scala">
+sealed abstract class Validation[+E, +A] {
+  def ap[EE &gt;: E, B](x: =&gt; Validation[EE, A =&gt; B])
+                    (implicit E: Semigroup[EE]): Validation[EE, B]
+  def map[B](f: A =&gt; B): Validation[E, B]
+  ...
+}
 
-				<section>
-					<h2>Speaker View</h2>
-					<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
-					<p>Press the <em>S</em> key to try it out.</p>
+final case class Success[A](a: A) extends Validation[Nothing, A]
+final case class Failure[E](e: E) extends Validation[E, Nothing]
+                                  </code></pre>
+                                  <p><small>A <em>Semigroup</em> is a typeclass with a single method, <em>append()</em><br>Does that sound familiar?</small></p>
+                                </section>
 
-					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>
-				</section>
+                                <!-- =================================================================================== -->
 
-				<section>
-					<h2>Export to PDF</h2>
-					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
-					<iframe src="//www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
-				</section>
+                                <section>
+                                  <p></p>
+                                  <pre><code class="scala" style="width: 950px">
+case class Person(firstName: String, lastName: String, age: Int)
 
-				<section>
-					<h2>Global State</h2>
-					<p>
-						Set <code>data-state="something"</code> on a slide and <code>"something"</code>
-						will be added as a class to the document element when the slide is open. This lets you
-						apply broader style changes, like switching the page background.
-					</p>
-				</section>
+def validateNonEmptyString(field: String,
+                           value: String): ValidationNel[String, String] =
+  if(value.isEmpty) s"$field cannot be empty.".failureNel
+  else value.successNel
 
-				<section data-state="customevent">
-					<h2>State Events</h2>
-					<p>
-						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
-					</p>
-					<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
-Reveal.addEventListener( 'customevent', function() {
-	console.log( '"customevent" has fired' );
-} );
-					</code></pre>
-				</section>
+def validateNonNegativeInteger(field: String,
+                               value: String): ValidationNel[String, Int] =
+  value.parseInt
+    .leftMap(_ =&gt; s"$field must be an integer value.".wrapNel)
+    .ensure(s"$field cannot be negative.".wrapNel)(_ &gt;= 0)
+                                  </code></pre>
+                                  <small>
+                                  <p><em>ValidationNel[String, Person]</em> is a convient shortcut for
+                                    <em>Validation[NonEmptyList[String], Person]</em>
+                                  </p>
+                                  <p>
+                                    <em>"string".wrapNel</em> is equivalent to <em>NonEmptyList("string")</em>
+                                  </p>
+                                  </small>
+                                </section>
 
-				<section>
-					<h2>Take a Moment</h2>
-					<p>
-						Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
-					</p>
-				</section>
+                                <!-- =================================================================================== -->
 
-				<section>
-					<h2>Much more</h2>
-					<ul>
-						<li>Right-to-left support</li>
-						<li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
-						<li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
-					</ul>
-				</section>
+                                <section>
+                                  <p></p>
+                                  <pre><code class="scala">
+def makePerson(firstName: String, lastName: String,
+               ageStr: String): ValidationNel[String, Person] =
+  (validateNonEmptyString("First name", firstName)
+    |@| validateNonEmptyString("Last name", lastName)
+    |@| validateNonNegativeInteger("Age", ageStr)
+  )(Person.apply)
+                                  </code></pre>
+                                </section>
 
-				<section style="text-align: left;">
-					<h1>THE END</h1>
-					<p>
-						- <a href="http://slides.com">Try the online editor</a> <br>
-						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
-					</p>
-				</section>
+                                <!-- =================================================================================== -->
 
-			</div>
+                                <section>
+                                  <p></p>
+                                  <pre><code class="scala">
+makePerson("First", "Last", "42")
+// Success(Person("First", "Last", 42))
+
+makePerson("", "", "42")
+// Failure(NonEmptyList("First name cannot be empty.",
+//                      "Last name cannot be empty."))
+
+makePerson("First", "Last", "age")
+// Failure(NonEmptyList("Age must be an integer"))
+
+makePerson("", "", "-42")
+// Failure(NonEmptyList("First name cannot be empty.",
+//                      "Last name cannot be empty.",
+//                      "Age cannot be negative."))
+                                  </code></pre>
+                                </section>
+
+                                <!-- =================================================================================== -->
+
+                                <!-- <section> -->
+                                <!--   <h3>Recap &ndash; What have we seen so far</h3> -->
+                                <!--   <ul> -->
+                                <!--     <li>Some useful functional (immutable) data structures</li> -->
+                                <!--     <li>The <em>Typeclass</em> pattern</li> -->
+                                <!--     <li>Scala type signatures and parametricity</li> -->
+                                <!--     <li>ScalaZ typeclasses</li> -->
+                                <!--   </ul> -->
+                                <!-- </section> -->
+
+                                <!-- =================================================================================== -->
+
+                                <section>
+                                  <h3>What's it all for?</h3>
+                                  <img class="fragment" src="xkcd-functional.png">
+				  <small>
+                                    <p class="fragment">Functional programming combines the flexibility
+                                   and power of abstract mathematics with the intuitive clarity of abstract mathematics.</p>
+                                  </small>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li>I started out by saying that FP is different and takes time and effort to learn</li>
+                                      <li>Why take that time and spend the effort?</li>
+                                      <li>What's FP really good for?</li>
+                                      <li>Many answers to that, but we'll focus one example: functional error handling</li>
+                                    </ol>
+                                  </aside>
+                                </section>
+
+                                <!-- =================================================================================== -->
+
+                                <section>
+                                  <p>Imperative error handling</p>
+                                      <pre><code class="scala" style="width: 900px; max-height: 600px">
+def getDBConnection(): Connection
+def getUserIdForName(conn: Connection, name: UserName): Int
+def updateUserAddress(conn: Connection, user: Int,
+                      address: Address): ConfirmationCode
+
+val conn = getDBConnection()
+if (conn != null) {
+  val user = getUserForName(conn, name)
+  if (user != -1) {
+    val conf = updateUserAddress(conn, user, address)
+    if (conf != null) {
+      // Report success
+    } else {
+      // Report address change failure
+    }
+  } else {
+    // Report get user failure
+  }
+} else {
+  // Report get connection failure
+}
+
+                                      </code></pre>
+                                      <aside class="notes">
+                                        <ol>
+                                          <li>Everything about this code sucks</li>
+                                          <li>It's hard to see what the code is trying to accomplish</li>
+                                          <li>It's easy to forget to handle the errors</li>
+                                          <li>It's dreary to write and difficult to maintain</li>
+                                        </ol>
+                                      </aside>
+                                </section>
+
+                                <!-- =================================================================================== -->
+
+                                <section>
+                                  <p>Functional error handling &ndash; Start with the types</p>
+                                      <pre><code class="scala" style="width: 910px">
+type UserId = Int
+def getDBConnection(): Error \/ Connection
+def getUserIdForName(conn: Connection, name: UserName): Error \/ UserId
+def updateUserAddress(conn: Connection, user: UserId,
+                      address: Address): Error \/ ConfirmationCode
+                                     </code></pre>
+				  <aside class="notes">
+                                    <small>
+                                      <ol>
+                                        <li>Types
+                                          <ol>
+                                            <li>Encode the fact that they are the result of a computation that might fail</li>
+                                            <li>Failure cannot be ignored</li>
+                                            <li>UserId type alias for Int</li>
+                                            <li>ADT allows encoding domain structure in the types</li>
+                                          </ol>
+                                        </li>
+                                        <li>Note that Error is almost always Throwable</li>
+                                        <li>If errors can't be ignored does that make the code more complicated?</li>
+                                      </ol>
+                                    </small>
+                                  </aside>
+                                </section>
+
+                                <!-- =================================================================================== -->
+
+                                <section>
+                                  <p>Functional error handling &ndash; Monadic style</p>
+                                      <pre><code class="scala" style="width: 920px">
+// Monadic style - Sequence computations and fail fast
+def getDBConnection(): Error \/ Connection
+def getUserIdForName(conn: Connection, name: UserName): Error \/ UserId
+def updateUserAddress(conn: Connection, user: UserId,
+                      address: Address): Error \/ ConfirmationCode
+
+for {
+  c <- getDBConnection()
+  u <- getUserForName(c, name)
+  r <- updateUserAddress(c, u, address)
+} yield r
+                                     </code></pre>
+				  <aside class="notes">
+                                    <small>
+                                      <ol>
+                                        <li>The result of the for comprehension is either a confirmation code or an error</li>
+                                        <li>What do you do with that?
+                                          <ol>
+                                            <li>In a web app pattern match on the result and send an error or success page</li>
+                                            <li>In a legacy Java app then maybe turn an error into an exception</li>
+                                            <li>In some cases you might wasnt to use getOrElse() to return a default value in case of an error</li>
+                                          </ol>
+                                        </li>
+                                        <li>Why is this FP?
+                                          <ol>
+                                            <li>The <em>for</em> comprehension is <em>flatMap</em> and <em>map</em></li>
+                                            <li>That is <strong>Function Composition</strong>, one of the basic features of Functional Programming</li>
+                                          </ol>
+                                        </li>
+                                        <li>What happened to all the control flow?
+                                          <ol>
+                                            <li>Function composition</li>
+                                            <li>The <em>if error stop otherwise continue computation</em> is baked into flatMap and map</li>
+                                            <li>The \/ type <em>abstracts away</em> the handling of a computation
+                                              that might fail.</li>
+                                            <li>All that boilerplate is now taken care of inside \/. All that's left at the top level
+                                              is the actual computation we're trying to achieve.</li>
+                                          </ol>
+                                        </li>
+                                      </ol>
+                                    </small>
+				  </aside>
+                                </section>
+
+                                <!-- =================================================================================== -->
+
+                                <section>
+                                  <p>Functional error handling &ndash; Applicative style</p>
+                                  <pre><code class="scala" style="width: 900px">
+// Applicative style - Sequence computations collecting all failures
+(validateNonEmptyString("First name", firstName)
+  |@| validateNonEmptyString("Last name", lastName)
+  |@| validateNonNegativeInteger("Age", ageStr)
+)(Person.apply)
+                                  </code></pre>
+				  <aside class="notes">
+                                    <small>
+                                      <ol>
+                                        <li>The Applicative Functor style is also based on function composition. This time all based on map.</li>
+                                        <li>Unlike the monadic style, the applicative will always evaluate all sub-computations.</li>
+                                        <li>If all of the sub-computations succeed the final computation is made, otherwise, an error is returned.</li>
+                                        <li>The Validation class collects all of the errors using a semigroup. Other types just return the first error.</li>
+                                      </ol>
+                                    </small>
+				  </aside>
+                                </section>
+
+                                <!-- =================================================================================== -->
+
+                                <section>
+                                  <p>There's a technical name for this structure</p>
+                                  <div class="fragment">
+                                    <p>It's called</p>
+                                    <h2>The Happy Path!</h2>
+                                  </div>
+                                </section>
+
+                                <!-- =================================================================================== -->
+
+                                <section>
+                                  <p>So, what does functional programming get you?.</p>
+                                  <p class="fragment">It puts you on the happy path.</p>
+                                  <aside class="notes">
+                                    <ol>
+                                      <li>We've seen functional/persistent containers: Zipper, Heap</li>
+                                      <li>We've seen FP types like Functor, Applicative and Monad</li>
+                                      <li>We've seen how these things compose to form powerful constructs that remove boilerplate and redundant code</li>
+                                    </ol>
+                                  </aside>
+                                </section>
+
+                                <!-- =================================================================================== -->
+
+                                <section>
+                                </section>
+
+                                <!-- =================================================================================== -->
+                        </div>
 
 		</div>
 
@@ -614,7 +1106,7 @@ Reveal.addEventListener( 'customevent', function() {
 				history: true,
 				center: true,
 
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				transition: 'fade', // none/fade/slide/convex/concave/zoom
 
 				// Optional reveal.js plugins
 				dependencies: [

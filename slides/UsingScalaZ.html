@@ -94,8 +94,9 @@
 					<!-- <p><small>Marc Saegesser (<a href="http://twitter.com/marcsaegesser">@marcsaegesser)</a></small></p> -->
 					<!-- <p><small>AMI Entertainment Network, inc.</small></p> -->
 				  <aside class="notes">
-                                    <small>
+                                    <!-- <small> -->
                                       <ol>
+                                        <li>ScalaZ is a library for doing pure functional programming in Scala</li>
                                         <li>Over the last couple years I found uses for several ScalaZ classes in my production code
                                           <ol>
                                             <li>Sometimes I went looking for a data structure and found it in ScalaZ</li>
@@ -111,7 +112,7 @@
                                         </li>
                                         <li>Actually, they have a point</li>
                                       </ol>
-                                    </small>
+                                    <!-- </small> -->
                                   </aside>
 				</section>
 
@@ -447,8 +448,8 @@ object Plusser {
   implicit val IntPlusser = new Plusser[Int] {
     def plus(x: Int, y: Int): Int = x + y
   }
-  implicit def ListPlusser[A] = new Plusser[List[A]] {
-    def plus(x: List[A], y: List[A]): List[A] = x ++ y
+  implicit def ListPlusser[B] = new Plusser[List[B]] {
+    def plus(x: List[B], y: List[B]): List[B] = x ++ y
   }
   ...
 }
@@ -815,7 +816,6 @@ sealed abstract class Validation[+E, +A] {
   def ap[EE &gt;: E, B](x: =&gt; Validation[EE, A =&gt; B])
                     (implicit E: Semigroup[EE]): Validation[EE, B]
   def map[B](f: A =&gt; B): Validation[E, B]
-  def leftMap[C](f: E =&gt; C): Validation[C, A]
   ...
 }
 
@@ -891,15 +891,15 @@ makePerson("", "", "-42")
 
                                 <!-- =================================================================================== -->
 
-                                <section>
-                                  <h3>Recap &ndash; What have we seen so far</h3>
-                                  <ul>
-                                    <li>Some useful functional (immutable) data structures</li>
-                                    <li>The <em>Typeclass</em> pattern</li>
-                                    <li>Scala type signatures and parametricity</li>
-                                    <li>ScalaZ typeclasses</li>
-                                  </ul>
-                                </section>
+                                <!-- <section> -->
+                                <!--   <h3>Recap &ndash; What have we seen so far</h3> -->
+                                <!--   <ul> -->
+                                <!--     <li>Some useful functional (immutable) data structures</li> -->
+                                <!--     <li>The <em>Typeclass</em> pattern</li> -->
+                                <!--     <li>Scala type signatures and parametricity</li> -->
+                                <!--     <li>ScalaZ typeclasses</li> -->
+                                <!--   </ul> -->
+                                <!-- </section> -->
 
                                 <!-- =================================================================================== -->
 
